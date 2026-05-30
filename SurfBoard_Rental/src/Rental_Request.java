@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class Rental_Request extends JFrame{
     Rental_Request(){
@@ -46,12 +47,16 @@ public class Rental_Request extends JFrame{
         TitlePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         TitlePanel.add(ReqTitle, BorderLayout.NORTH);
 
+        //Req Panel
         ReqPanel = new JPanel();
         ReqPanel.setLayout(new GridLayout());
         ReqPanel.setPreferredSize(new Dimension(300, 330));
         centerReqPanel = new JPanel(new GridBagLayout());
         centerReqPanel.setBackground(new Color(0x1a3052));
+        //Add all Components in ReqPanel ex: ReqPanl.add(nameofcomponent)
 
+
+        // btnPanel
         btnPanel = new JPanel();
         btnPanel.setLayout(new BorderLayout());
         btnPanel.setBackground(new Color(0x1a3052));
@@ -59,7 +64,7 @@ public class Rental_Request extends JFrame{
         btnPanel.add(btnCancel, BorderLayout.WEST);
         btnPanel.add(btnDone, BorderLayout.EAST);
      
-
+        //Overall Window
         setLayout(new BorderLayout());
         add(TitlePanel, BorderLayout.NORTH);
         centerReqPanel.add(ReqPanel);
@@ -67,13 +72,24 @@ public class Rental_Request extends JFrame{
         add(btnPanel, BorderLayout.SOUTH);
 
         
+        // Colors
 
         
+        // Events
+        btnDone.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                new Rental_List();
+                dispose();
+            }  
+        });
 
+        btnCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                new Rental_List();
+                dispose();
+            }
+        });
 
-
-
-        // Colors
         setSize(417, 485);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

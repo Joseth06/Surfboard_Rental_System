@@ -79,6 +79,8 @@ public class SurfBoard extends JFrame {
         }
             }
         });
+
+        
         setSize(417, 485);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
