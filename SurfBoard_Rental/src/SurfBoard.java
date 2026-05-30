@@ -34,7 +34,7 @@ public class SurfBoard extends JFrame {
         btnSignIn.setMaximumSize(new Dimension(100, 35));
         btnSignIn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Panel
+        // Login Panel
         MainPanel = new JPanel();
         MainPanel.setPreferredSize(new Dimension(265, 285));
         MainPanel.setBackground(new Color(0x1a3052));
