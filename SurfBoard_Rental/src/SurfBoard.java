@@ -1,6 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 
 public class SurfBoard extends JFrame {
@@ -15,7 +15,7 @@ public class SurfBoard extends JFrame {
         getContentPane().setBackground(new Color(0xf4efe9));
 
         // Login
-        login = new JLabel("Login", SwingConstants.CENTER);
+        login = new JLabel("text", SwingConstants.CENTER);
         login.setFont(new Font("Arial", Font.BOLD, 28));
         login.setAlignmentX(Component.CENTER_ALIGNMENT);
 
