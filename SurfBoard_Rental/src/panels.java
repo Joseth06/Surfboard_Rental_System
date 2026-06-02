@@ -1,0 +1,97 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class panels extends JFrame{
+    private int itemWidth = 330;
+    private int itemHeight = 90;
+    private Dimension itemSize = new Dimension(itemWidth, itemHeight);
+
+    private JPanel EQPStatus, topRow, midRow, botRow, totalRows;
+    private JButton remove, edit;
+    private JLabel nameBoard, status, displayDue;
+    private JTextField rent;
+   
+
+    
+   
+    public panels(){
+        
+    }
+
+    public Component RentCus(String name, String Due){
+        nameBoard  = new JLabel(name);
+        displayDue = new JLabel("Due Rent");
+        rent = new JTextField(Due);
+
+        rent.setEditable(false);
+
+        EQPStatus = new JPanel(new GridLayout(2, 2));
+        EQPStatus.setPreferredSize(itemSize); 
+        EQPStatus.setMaximumSize(itemSize);
+        EQPStatus.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        EQPStatus.setBackground(new Color(0x1a3052)); // fixed
+
+        EQPStatus.add(nameBoard);
+        EQPStatus.add(new JLabel());
+        EQPStatus.add(displayDue);
+        EQPStatus.add(rent);
+
+        nameBoard.setForeground (new Color(0xad9a6f));
+        displayDue.setForeground(new Color(0xad9a6f));
+
+        return EQPStatus;
+    }
+
+    public Component AdminRentList(String name, String stat, String Due){
+        nameBoard  = new JLabel(name);
+        status = new JLabel(stat);
+        displayDue = new JLabel("Due Rent");
+        rent = new JTextField(Due);
+
+        edit = new JButton("Edit");
+        remove = new JButton("Remove");
+
+        rent.setEditable(false);
+
+
+        EQPStatus = new JPanel(new BorderLayout());
+        EQPStatus.setPreferredSize(itemSize); 
+        EQPStatus.setMaximumSize(itemSize);
+        EQPStatus.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    
+
+        //Top row: name and edit button
+        topRow = new JPanel(new BorderLayout());
+        topRow.setOpaque(false);
+        topRow.add(nameBoard, BorderLayout.WEST);
+        topRow.add(edit, BorderLayout.EAST);
+
+        // Middle row: state and remove button
+        midRow = new JPanel(new BorderLayout());
+        midRow.setOpaque(false);
+        midRow.add(status, BorderLayout.WEST);
+        midRow.add(remove, BorderLayout.EAST);
+
+        // Bottom row: Due Rent 
+        botRow = new JPanel(new GridLayout(0, 2));
+        botRow.setOpaque(false);
+        botRow.add(displayDue);
+        botRow.add(rent);
+
+        // Stack the 3 rows
+        totalRows = new JPanel(new GridLayout(3, 1, 3, 4));
+        totalRows.setOpaque(false);
+        totalRows.add(topRow);
+        totalRows.add(midRow);
+        totalRows.add(botRow);
+        EQPStatus.add(totalRows, BorderLayout.CENTER);
+
+        nameBoard.setForeground (new Color(0xad9a6f));
+        displayDue.setForeground(new Color(0xad9a6f));
+        status.setForeground(new Color(0xad9a6f));
+        EQPStatus.setBackground(new Color(0x1a3052));
+
+        return EQPStatus;
+    }
+}

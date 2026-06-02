@@ -30,12 +30,12 @@ public class Rental_List extends JFrame {
     	
         JLabel 		SurfListTitle, 
         			EQPName1, EQPName2, 
-        			EQPState1, EQPState2;
+        			EQPDue1 ,EQPDue2;
         JPanel 		EQPStatus1, EQPStatus2, 
 					top, 
 					statusCTR1, statusCTR2,
 					gapPanel, scrollPanel;
-        JButton 	rentalRQ;
+        JButton 	rentalRQ, surfLogout;
         JScrollPane scroll;
         
         //JLabels, JButtons, and JScrollPane
@@ -43,12 +43,13 @@ public class Rental_List extends JFrame {
         SurfListTitle.setFont(new Font("Arial", Font.BOLD, 20));
         
         EQPName1 	= new JLabel("Surf Board 1", SwingConstants.LEFT);
-        EQPState1 	= new JLabel("Available", SwingConstants.RIGHT);
+        EQPDue1 	= new JLabel("Due Rent: 00/00/0000 XX:XX", SwingConstants.LEFT);
         EQPName2 	= new JLabel("Surf Board 2", SwingConstants.LEFT);
-        EQPState2 	= new JLabel("Under Maintenance", SwingConstants.RIGHT);
+        EQPDue2 	= new JLabel("Due Rent: 00/00/0000 XX:XX", SwingConstants.LEFT);
 
         //JButton to Rental Request Form
         rentalRQ 	= new JButton("+");
+        surfLogout = new JButton("Surf out");
 
         //Scroll Feature, deal with later on.
         scroll 		= new JScrollPane();
@@ -62,8 +63,9 @@ public class Rental_List extends JFrame {
         //Top Panel / Header of Page
         top 		= new JPanel();
         top.setLayout	(new BorderLayout());
-        top.setBorder	(BorderFactory.createEmptyBorder(10, 0, 10, 10));
-        top.add			(SurfListTitle);
+        top.setBorder	(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        top.add         (surfLogout, BorderLayout.WEST);
+        top.add         (SurfListTitle, BorderLayout.CENTER);
         top.add			(rentalRQ, BorderLayout.EAST);
 
         // Dimension constants
@@ -72,27 +74,8 @@ public class Rental_List extends JFrame {
         int gapHeight = (int) (itemHeight * 0.20); 
         Dimension itemSize = new Dimension(itemWidth, itemHeight);
 
-        //Status Panel for Equipment 1
-        EQPStatus1 	= new JPanel	();
-        EQPStatus1.setLayout		(new GridLayout());
-        EQPStatus1.setPreferredSize	(itemSize); 
-        EQPStatus1.setMaximumSize	(itemSize); // Locks size for BoxLayout
-        EQPStatus1.setBorder		(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        
-        statusCTR1 	= new JPanel(new GridBagLayout());
-        EQPStatus1.add	(EQPName1);
-        EQPStatus1.add	(EQPState1);
-        
-        //Status Panel for Equipment 2
-        EQPStatus2 	= new JPanel();
-        EQPStatus2.setLayout		(new GridLayout());
-        EQPStatus2.setPreferredSize	(itemSize); // Corrected from 10 to 90
-        EQPStatus2.setMaximumSize	(itemSize); // Locks size for BoxLayout
-        EQPStatus2.setBorder		(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        statusCTR2 	= new JPanel(new GridBagLayout());
-        EQPStatus2.add				(EQPName2);
-        EQPStatus2.add				(EQPState2);
-
+        //Status Panel 
+        panels p = new panels();
         
         //Status Panel for Spacing between Equipments
         gapPanel 	= new JPanel();
@@ -106,9 +89,10 @@ public class Rental_List extends JFrame {
         
         // Box Layout cuz idk how I would've figured that out in Gridlayout
         scrollPanel.setLayout	(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS)); 
-        scrollPanel.add			(EQPStatus1);
+        scrollPanel.add			(p.RentCus("Surfboard 1", "00/00/0000 XX:XX"));
         scrollPanel.add			(Box.createVerticalStrut(gapHeight)); // Gap
-        scrollPanel.add			(EQPStatus2);
+        scrollPanel.add			(p.RentCus("Surfboard 2", "00/00/0000 XX:XX"));
+        
         
         // Initialize scroll container with your panel nestled inside
         scroll = new JScrollPane(scrollPanel);
@@ -129,9 +113,15 @@ public class Rental_List extends JFrame {
                 new Rental_Request();
                 dispose();
             }  
-        }
-        );
+        });
 
+        surfLogout.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e){
+                new SurfBoard();
+                dispose();
+            }
+        });
         //Overall Window
         setLayout	(new BorderLayout()); 
         add			(top, BorderLayout.NORTH); //Adds header to the frame
@@ -141,14 +131,6 @@ public class Rental_List extends JFrame {
         //Component Colors
         SurfListTitle.setForeground		(new Color(0xad9a6f));
 
-  	  	EQPName1.setForeground		(new Color(0xad9a6f));
-        EQPStatus1.setBackground	(new Color(0x1a3052));
-        EQPState1.setForeground		(new Color(0xad9a6f));
-        
-    	EQPName2.setForeground		(new Color(0xad9a6f));
-        EQPStatus2.setBackground	(new Color(0x1a3052));
-        EQPState2.setForeground		(new Color(0xad9a6f));
-          
         // Window Parameters
         setSize						(417,485);
         setVisible					(true);
