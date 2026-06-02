@@ -30,15 +30,17 @@ public class panels extends JFrame{
         EQPStatus.setPreferredSize(itemSize); 
         EQPStatus.setMaximumSize(itemSize);
         EQPStatus.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        EQPStatus.setBackground(new Color(0x1a3052)); // fixed
 
+        //Appearance
         EQPStatus.add(nameBoard);
         EQPStatus.add(new JLabel());
         EQPStatus.add(displayDue);
         EQPStatus.add(rent);
 
+        //Colors
         nameBoard.setForeground (new Color(0xad9a6f));
         displayDue.setForeground(new Color(0xad9a6f));
+        EQPStatus.setBackground(new Color(0x1a3052)); 
 
         return EQPStatus;
     }
@@ -87,6 +89,7 @@ public class panels extends JFrame{
         totalRows.add(botRow);
         EQPStatus.add(totalRows, BorderLayout.CENTER);
 
+        //Colors
         nameBoard.setForeground (new Color(0xad9a6f));
         displayDue.setForeground(new Color(0xad9a6f));
         status.setForeground(new Color(0xad9a6f));
