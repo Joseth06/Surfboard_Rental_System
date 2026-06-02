@@ -21,8 +21,9 @@ import java.time.Period;
 */
 
 public class Rental_Request extends JFrame {
-	Rental_Request() {
-
+    private String currentAcc;
+	Rental_Request(String role) {
+        this.currentAcc = role;
         //------------ UI Component Declarations & Initializations ------------
     	
         JLabel				RequestTitle, topLabel,
@@ -125,6 +126,9 @@ public class Rental_Request extends JFrame {
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         formPanel.setLayout(new GridLayout(3, 1, 10, 10));
 
+       
+
+        
         // Top Request Form Panel
         TopformPanel = new JPanel();
         TopformPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -135,10 +139,15 @@ public class Rental_Request extends JFrame {
         TopformPanel.add(packageDisplay); TopformPanel.add(packBox);
 
         
+
+        
         // Bottom Request Form Panel
         BotformPanel = new JPanel();
-        BotformPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 30, 10));
+        BotformPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         BotformPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 20));
+        BotformPanel.setMinimumSize(getMinimumSize());
+        BotformPanel.setMaximumSize(getMaximumSize());
+
         BotformPanel.add(dateDisplay); BotformPanel.add(dateInput);
         BotformPanel.add(hourDisplay); BotformPanel.add(hourInput);
         BotformPanel.add(minuteDisplay); BotformPanel.add(minuteInput);
@@ -192,9 +201,28 @@ public class Rental_Request extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Rental_List(); 
+                if("Admin".equalsIgnoreCase(role)){
+                    new Admin_List("Admin"); 
+                } else {
+                    new Rental_List("User");
+                }
+        
             }
         });
+
+        // Submit Event
+        btnSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                if("Admin".equalsIgnoreCase(role)){
+                    new Admin_List("Admin");
+                } else {
+                    new Rental_List("User");
+                }
+            }
+        });
+        
         
         //Overall Window
         setLayout(new GridBagLayout());
@@ -224,7 +252,4 @@ public class Rental_Request extends JFrame {
         setVisible						(true);
     }
 
-    public static void main(String[] args) {
-        new Rental_Request();
-    }
 }

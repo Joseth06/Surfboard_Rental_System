@@ -25,7 +25,9 @@ import java.awt.event.*;
 */
 
 public class Admin_List extends JFrame {
-    Admin_List(){
+    private String currentAcc;
+    Admin_List(String acc){
+        this.currentAcc = acc;
         //------------ UI Component Declarations & Initializations ------------
     	
         JLabel 		SurfListTitle;
@@ -89,7 +91,7 @@ public class Admin_List extends JFrame {
         
         // Box Layout cuz idk how I would've figured that out in Gridlayout
         scrollPanel.setLayout	(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS)); 
-        scrollPanel.add			(p1.AdminRentList("Surfboard1", "In use", "00/00/0000 XX:XX"));
+        scrollPanel.add			(p1.AdminRentList("Surfboard1", "In use", "00/00/0000 XX:XX", this));
         scrollPanel.add			(Box.createVerticalStrut(gapHeight)); // Gap
         
         
@@ -109,7 +111,7 @@ public class Admin_List extends JFrame {
         {
             public void actionPerformed(ActionEvent e)
             {
-                new Rental_Request();
+                new Rental_Request("Admin");
                 dispose();
             }  
         });
@@ -145,9 +147,5 @@ public class Admin_List extends JFrame {
 
         //------------------------- Start of Program --------------------------
         
-    }
-
-    public static void main(String arg[]){
-        new Admin_List();
     }
 }

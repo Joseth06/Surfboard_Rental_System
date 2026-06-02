@@ -25,7 +25,9 @@ import java.awt.event.*;
 */
 
 public class Rental_List extends JFrame {
-    Rental_List(){
+    private String currentAcc;
+    Rental_List(String acc){
+        this.currentAcc = acc;
         //------------ UI Component Declarations & Initializations ------------
     	
         JLabel 		SurfListTitle;
@@ -105,7 +107,7 @@ public class Rental_List extends JFrame {
         {
             public void actionPerformed(ActionEvent e)
             {
-                new Rental_Request();
+                new Rental_Request(currentAcc);
                 dispose();
             }  
         });
@@ -139,9 +141,5 @@ public class Rental_List extends JFrame {
 
         //------------------------- Start of Program --------------------------
         
-    }
-
-    public static void main(String arg[]){
-        new Rental_List();
     }
 }

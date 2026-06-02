@@ -108,12 +108,12 @@ public class SurfBoard extends JFrame {
         if (Inputusername.equals("user") && Inputpassword.equals("123")) {
             JOptionPane.showMessageDialog(loginPanel, "Login successfully, Welcome Customer!");
             dispose();
-            new Rental_List();
+            new Rental_List("user");
             
         } else if (Inputusername.equals("admin") && Inputpassword.equals("000")){
             JOptionPane.showMessageDialog(loginPanel, "Login successfully, Welcome Admin!");
             dispose();  
-            new Admin_List();
+            new Admin_List("admin");
         } else {
             JOptionPane.showMessageDialog(loginPanel, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
         }
