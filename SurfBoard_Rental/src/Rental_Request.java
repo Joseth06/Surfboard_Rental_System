@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.Period;
 
 /* 
 * Navigation Guide
@@ -24,33 +25,58 @@ public class Rental_Request extends JFrame {
 
         //------------ UI Component Declarations & Initializations ------------
     	
-        JLabel				RequestTitle, 
-        					topLabel,
-                        	boardTypeLabel,
-                        	RQName;
-        JPanel				formPanel,
-        					topPanel,
-                            buttonPanel; // Container to align buttons side-by-side
+        JLabel				RequestTitle, topLabel,
+                            RQNameDisplay, packageDisplay, 
+                            RQNumDisplay, boardDisplay,
+                            dateDisplay, timeDisplay, 
+                            dayDisplay, costDisplay, 
+                            dueDisplay, hourDisplay,
+                            minuteDisplay, periodDisplay;
+        JPanel				formPanel, TopformPanel, 
+                            BotformPanel, BotformPanel2,
+                            topPanel, buttonPanel; // Container to align buttons side-by-side
         JButton				btnSubmit, btnCancel;
-        JTextField			renterName;
-        JComboBox<String> 	boardType;
+        JTextField			RQName, RQNum, boardInput, dateInput,
+                            dayInput, hourInput, minuteInput, periodInput, 
+                            costOutput, dueOutput;
+        JComboBox<String> 	boardType, packageType;
         
         // JLabels, JButtons, JComboBox, and JTextFields
 
         RequestTitle 	= new JLabel("Surfboard Rental Form", SwingConstants.CENTER);
         RequestTitle.setFont(new Font("Arial", Font.BOLD, 20));
         
-        topLabel		= new JLabel("Rent a Board", SwingConstants.CENTER);
-        RQName			= new JLabel("Renter Name:", SwingConstants.CENTER);
-        renterName		= new JTextField(15);
-        
-        boardTypeLabel	= new JLabel("Select Board Type:", SwingConstants.CENTER);
-        // Dropdown choices
-        String[] types	= { "SurfBoard 1", "SurfBoard 2", "SurfBoard 3", "SurfBoard 4", "SurfBoard 5" };
-        boardType		= new JComboBox<>(types);
-        
-        btnSubmit		= new JButton("Submit Rental");
-        btnCancel 		= new JButton("Cancel");
+        topLabel = new JLabel("Rent a Board", SwingConstants.CENTER);
+        RQNameDisplay = new JLabel("Name");
+        RQNumDisplay = new JLabel("Phone Number:");
+        boardDisplay = new JLabel("Amount of SurfBoards");
+        dateDisplay = new JLabel("Date");
+        hourDisplay = new JLabel("Hour");
+        minuteDisplay = new JLabel("Minute");
+        periodDisplay = new JLabel("Period");
+        dayDisplay = new JLabel("Day(s)");
+        costDisplay = new JLabel("Cost");
+        dueDisplay = new JLabel("Due Rent");
+        packageDisplay = new JLabel("Packcage");
+
+        RQName = new JTextField("Name");
+        RQNum = new JTextField("XXXXXXXXXXX");
+        boardInput = new JTextField("XX");
+        dateInput = new JTextField("00/00/0000");
+        hourInput = new JTextField("XX");
+        minuteInput = new JTextField("XX");
+        dayInput = new JTextField("XX");
+        costOutput = new JTextField("$$$$$$.$$", 15);
+        dueOutput = new JTextField("00/00/0000 XX:XX");
+
+        String [] pTime = {"AM", "PM"};
+        String[] pack = {"No Instructor","With Instructor"};
+        JComboBox<String> packBox = new JComboBox<>(pack);
+        JComboBox<String> packPeriod = new JComboBox<>(pTime);
+
+        btnSubmit = new JButton("Done");
+        btnCancel = new JButton("Cancel");
+
 
         getContentPane().setBackground		(new Color(0xc4d2e0));
 
@@ -75,19 +101,10 @@ public class Rental_Request extends JFrame {
         RQName.setFont       		(new Font("Arial", Font.PLAIN, 12));
         RQName.setAlignmentX 		(Component.CENTER_ALIGNMENT);
         
-        boardTypeLabel.setFont      (new Font("Arial", Font.PLAIN, 12));
-        boardTypeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Renter Name Field
-        renterName.setMaximumSize	(new Dimension(200, 30));
-        renterName.setAlignmentX	(Component.CENTER_ALIGNMENT);
-
-        // Dropdown Combo Box Field
-        boardType.setMaximumSize	(new Dimension(200, 30));
-        boardType.setAlignmentX		(Component.CENTER_ALIGNMENT);
-
+        
+        
         // Horizontal Button Layout Panel
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 30));
         buttonPanel.setOpaque(false); // Keeps form panel background clean
         buttonPanel.setMaximumSize(new Dimension(250, 35));
         
@@ -99,26 +116,62 @@ public class Rental_Request extends JFrame {
         buttonPanel.add(btnCancel);
         buttonPanel.add(btnSubmit);
 
+        
+
         // Request Form Panel
         formPanel 	= new JPanel();
-        formPanel.setPreferredSize		(new Dimension(265, 320));
+        formPanel.setPreferredSize		(new Dimension(400, 450));
         formPanel.setBackground			(new Color(0x1a3052));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        formPanel.setLayout(new GridLayout(3, 1, 10, 10));
 
-        formPanel.setLayout		(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
-        formPanel.add			(Box.createVerticalStrut(15));
-        formPanel.add			(topLabel);
-        formPanel.add			(Box.createVerticalStrut(25));
-        formPanel.add			(RQName);
-        formPanel.add			(Box.createVerticalStrut(5));
-        formPanel.add			(renterName);
-        formPanel.add			(Box.createVerticalStrut(15));
-        formPanel.add			(boardTypeLabel);
-        formPanel.add			(Box.createVerticalStrut(5));
-        formPanel.add			(boardType);
-        formPanel.add			(Box.createVerticalStrut(25));
-        formPanel.add			(buttonPanel); // Adds the horizontal button group card row
-        formPanel.add			(Box.createVerticalStrut(20));
+        // Top Request Form Panel
+        TopformPanel = new JPanel();
+        TopformPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        TopformPanel.setLayout		(new GridLayout(4,4, 10, 10));
+        TopformPanel.add(RQNameDisplay); TopformPanel.add(RQName);
+        TopformPanel.add(RQNumDisplay); TopformPanel.add(RQNum);
+        TopformPanel.add(boardDisplay); TopformPanel.add(boardInput);
+        TopformPanel.add(packageDisplay); TopformPanel.add(packBox);
 
+        
+        // Bottom Request Form Panel
+        BotformPanel = new JPanel();
+        BotformPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 30, 10));
+        BotformPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 20));
+        BotformPanel.add(dateDisplay); BotformPanel.add(dateInput);
+        BotformPanel.add(hourDisplay); BotformPanel.add(hourInput);
+        BotformPanel.add(minuteDisplay); BotformPanel.add(minuteInput);
+        BotformPanel.add(dayDisplay); BotformPanel.add(dayInput);
+        BotformPanel.add(periodDisplay); BotformPanel.add(packPeriod);
+
+        BotformPanel2 = new JPanel();
+        BotformPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 15));
+        BotformPanel2.add(costDisplay); BotformPanel2.add(costOutput);
+        BotformPanel2.add(dueDisplay); BotformPanel2.add(dueOutput);
+
+        BotformPanel.add(BotformPanel2);
+
+        // Overall Request Form Panel
+        formPanel.add(TopformPanel);
+        formPanel.add(BotformPanel);
+        formPanel.add(buttonPanel);
+        
+
+
+        //Color Components
+        RQNameDisplay.setForeground(new Color(0xad9a6f));
+        RQNumDisplay.setForeground(new Color(0xad9a6f));
+        boardDisplay.setForeground(new Color(0xad9a6f));
+        packageDisplay.setForeground(new Color(0xad9a6f));
+        dateDisplay.setForeground(new Color(0xad9a6f));
+        hourDisplay.setForeground(new Color(0xad9a6f));
+        minuteDisplay.setForeground(new Color(0xad9a6f));
+        periodDisplay.setForeground(new Color(0xad9a6f));
+        dayDisplay.setForeground(new Color(0xad9a6f));
+        costDisplay.setForeground(new Color(0xad9a6f));
+        dueDisplay.setForeground(new Color(0xad9a6f));
+        
 
         //---------------------------------------------------------------------
         
@@ -130,17 +183,8 @@ public class Rental_Request extends JFrame {
         btnSubmit.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        String inputName = renterName.getText().trim();
-        String selectedBoard = (String) boardType.getSelectedItem();
-
-        if (!inputName.isEmpty()) {
-            JOptionPane.showMessageDialog(formPanel, "Successfully rented a " + selectedBoard + " for " + inputName + "!");
-            dispose();
-            new Rental_List(); 
-        } else {
-            JOptionPane.showMessageDialog(formPanel, "Please enter a renter name.", "Error", JOptionPane.ERROR_MESSAGE);
+        
         }
-            }
         });
         
         // Cancel Event Logic
@@ -171,19 +215,10 @@ public class Rental_Request extends JFrame {
         GBConstraints.weighty	= 1;                    
         GBConstraints.anchor	= GridBagConstraints.NORTH;
         add				(formPanel, GBConstraints);
-
         //Component Colors
-        RequestTitle.setForeground		(new Color(0x1a3052));
-        topLabel.setForeground			(new Color(0xf4efe9));
-        RQName.setForeground			(new Color(0xf4efe9));
-        boardTypeLabel.setForeground	(new Color(0xf4efe9));
         
-        btnCancel.setBackground			(new Color(0xd9534f)); 
-        btnCancel.setForeground			(Color.WHITE);
-        btnSubmit.setBackground			(new Color(0xad9a6f));
-        formPanel.setBackground			(new Color(0x1a3052));
 
-        setSize							(417, 485);
+        setSize							(517, 585);
         setDefaultCloseOperation		(DISPOSE_ON_CLOSE);
         setLocationRelativeTo			(null);
         setVisible						(true);

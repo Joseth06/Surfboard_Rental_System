@@ -28,13 +28,10 @@ public class Rental_List extends JFrame {
     Rental_List(){
         //------------ UI Component Declarations & Initializations ------------
     	
-        JLabel 		SurfListTitle, 
-        			EQPName1, EQPName2, 
-        			EQPDue1 ,EQPDue2;
-        JPanel 		EQPStatus1, EQPStatus2, 
-					top, 
-					statusCTR1, statusCTR2,
-					gapPanel, scrollPanel;
+        JLabel 		SurfListTitle;
+        JPanel 		top, statusCTR1, 
+                    statusCTR2, gapPanel, 
+                    scrollPanel;
         JButton 	rentalRQ, surfLogout;
         JScrollPane scroll;
         
@@ -42,11 +39,6 @@ public class Rental_List extends JFrame {
         SurfListTitle 	= new JLabel("Surf Boards List", SwingConstants.CENTER);
         SurfListTitle.setFont(new Font("Arial", Font.BOLD, 20));
         
-        EQPName1 	= new JLabel("Surf Board 1", SwingConstants.LEFT);
-        EQPDue1 	= new JLabel("Due Rent: 00/00/0000 XX:XX", SwingConstants.LEFT);
-        EQPName2 	= new JLabel("Surf Board 2", SwingConstants.LEFT);
-        EQPDue2 	= new JLabel("Due Rent: 00/00/0000 XX:XX", SwingConstants.LEFT);
-
         //JButton to Rental Request Form
         rentalRQ 	= new JButton("+");
         surfLogout = new JButton("Surf out");
@@ -93,6 +85,9 @@ public class Rental_List extends JFrame {
         scrollPanel.add			(Box.createVerticalStrut(gapHeight)); // Gap
         scrollPanel.add			(p.RentCus("Surfboard 2", "00/00/0000 XX:XX"));
         
+
+
+        
         
         // Initialize scroll container with your panel nestled inside
         scroll = new JScrollPane(scrollPanel);
@@ -130,6 +125,7 @@ public class Rental_List extends JFrame {
 
         //Component Colors
         SurfListTitle.setForeground		(new Color(0xad9a6f));
+        
 
         // Window Parameters
         setSize						(417,485);

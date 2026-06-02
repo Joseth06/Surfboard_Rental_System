@@ -58,8 +58,8 @@ public class panels extends JFrame{
 
 
         EQPStatus = new JPanel(new BorderLayout());
-        EQPStatus.setPreferredSize(itemSize); 
-        EQPStatus.setMaximumSize(itemSize);
+        EQPStatus.setPreferredSize(new Dimension(330, 120));
+        EQPStatus.setMaximumSize(new Dimension(330, 120));
         EQPStatus.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
     
 
