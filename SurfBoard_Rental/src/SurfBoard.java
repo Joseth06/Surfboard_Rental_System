@@ -41,7 +41,7 @@ public class SurfBoard extends JFrame {
         LoginTitle.setFont(new Font("Arial", Font.BOLD, 30));
         
         login		= new JLabel("Login", SwingConstants.CENTER);
-        name 		= new JTextField("username", 15);
+        name 		= new JTextField(" username", 15);
         pass 		= new JPasswordField("password", 15);
         btnSignIn 	= new JButton("Sign In");
 
@@ -110,6 +110,10 @@ public class SurfBoard extends JFrame {
             dispose();
             new Rental_List();
             
+        } else if (Inputusername.equals("admin") && Inputpassword.equals("000")){
+            JOptionPane.showMessageDialog(loginPanel, "Login successfully, Welcome Admin!");
+            dispose();
+            new Admin_List();
         } else {
             JOptionPane.showMessageDialog(loginPanel, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
         }
