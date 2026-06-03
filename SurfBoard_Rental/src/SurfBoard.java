@@ -1,6 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 /* 
 * Navigation Guide
@@ -60,8 +60,9 @@ public class SurfBoard extends JFrame {
         top.add			(LoginTitle);
         
         // Login
-        login.setFont			(new Font("Arial", Font.BOLD, 28));
-        login.setAlignmentX		(Component.CENTER_ALIGNMENT);
+        login = new JLabel("Login", SwingConstants.CENTER);
+        login.setFont(new Font("Arial", Font.BOLD, 28));
+        login.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Username & Password
         name.setMaximumSize		(new Dimension(200, 35));
