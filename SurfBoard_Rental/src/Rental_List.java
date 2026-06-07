@@ -26,16 +26,34 @@ import java.awt.event.*;
 
 public class Rental_List extends JFrame {
     private String currentAcc;
+    private JPanel scrollPanel;   // ← promoted from local
+    private int gapHeight;
+    private int rentCount = 0;
+
+
+    public void addRentCus(String name, String due, double cost) {
+        rentCount++;   
+        panels p = new panels();
+        scrollPanel.add(Box.createVerticalStrut(gapHeight));
+        scrollPanel.add(p.addRentCus("Surfboard " + rentCount, due, cost));
+        scrollPanel.revalidate();
+        scrollPanel.repaint();
+    }
+
     Rental_List(String acc){
         this.currentAcc = acc;
+    
+    
+        
         //------------ UI Component Declarations & Initializations ------------
     	
         JLabel 		SurfListTitle;
         JPanel 		top, statusCTR1, 
-                    statusCTR2, gapPanel, 
-                    scrollPanel;
+                    statusCTR2, gapPanel;
         JButton 	rentalRQ, surfLogout;
         JScrollPane scroll;
+
+        
         
         //JLabels, JButtons, and JScrollPane
         SurfListTitle 	= new JLabel("Surf Boards List", SwingConstants.CENTER);
@@ -65,7 +83,7 @@ public class Rental_List extends JFrame {
         // Dimension constants
         int itemWidth = 330;
         int itemHeight = 90;
-        int gapHeight = (int) (itemHeight * 0.20); 
+        gapHeight = (int) (itemHeight * 0.20); 
         Dimension itemSize = new Dimension(itemWidth, itemHeight);
 
         //Status Panel 
@@ -83,9 +101,11 @@ public class Rental_List extends JFrame {
         
         // Box Layout cuz idk how I would've figured that out in Gridlayout
         scrollPanel.setLayout	(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS)); 
-        scrollPanel.add			(p.RentCus("Surfboard 1", "00/00/0000 XX:XX"));
-        scrollPanel.add			(Box.createVerticalStrut(gapHeight)); // Gap
-        scrollPanel.add			(p.RentCus("Surfboard 2", "00/00/0000 XX:XX"));
+        panels p1 = new panels();
+        for (Rent_Data.RentalEntry entry : Rent_Data.rentals) {
+            scrollPanel.add(p.addRentCus(entry.boardName, entry.due, entry.cost));
+            scrollPanel.add(Box.createVerticalStrut(gapHeight));
+        }
         
 
 
@@ -135,11 +155,6 @@ public class Rental_List extends JFrame {
         setDefaultCloseOperation	(EXIT_ON_CLOSE);
         setLocationRelativeTo		(null);
 
-
-        //---------------------------------------------------------------------
-        
-
-        //------------------------- Start of Program --------------------------
-        
     }
+    
 }

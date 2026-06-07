@@ -10,7 +10,7 @@ public class panels{
     private JPanel EQPStatus, topRow, midRow, botRow, totalRows;
     private JButton remove, view;
     private JLabel nameBoard, status, displayDue;
-    private JTextField rent;
+    private JTextField rent, costOutput;
    
 
     
@@ -19,21 +19,23 @@ public class panels{
         
     }
 
-    public Component RentCus(String name, String Due){
+    public Component addRentCus(String name, String Due, double cost){
         nameBoard  = new JLabel(name);
+        costOutput = new JTextField(String.format("₱ %.2f", cost));
         displayDue = new JLabel("Due Rent");
         rent = new JTextField(Due);
 
+        costOutput.setEditable(false);
         rent.setEditable(false);
 
-        EQPStatus = new JPanel(new GridLayout(2, 2));
+        EQPStatus = new JPanel(new GridLayout(2, 2, 0, 5));
         EQPStatus.setPreferredSize(itemSize); 
         EQPStatus.setMaximumSize(itemSize);
         EQPStatus.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         //Appearance
         EQPStatus.add(nameBoard);
-        EQPStatus.add(new JLabel());
+        EQPStatus.add(costOutput);
         EQPStatus.add(displayDue);
         EQPStatus.add(rent);
 
@@ -45,7 +47,7 @@ public class panels{
         return EQPStatus;
     }
 
-    public Component AdminRentList(String name, String stat, String Due, JFrame parentFrame){
+    public Component AdminRentList(String name, String stat, String Due, double cost, JFrame parentFrame){
         nameBoard  = new JLabel(name);
         status = new JLabel(stat);
         displayDue = new JLabel("Due Rent");

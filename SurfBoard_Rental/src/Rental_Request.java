@@ -20,27 +20,33 @@ import java.time.Period;
 * Added btnCancel next to btnSubmit using a horizontal buttonPanel wrapper container
 */
 
-public class Rental_Request extends JFrame {
+public class Rental_Request extends JFrame{
     private String currentAcc;
+
+
 	Rental_Request(String role) {
         this.currentAcc = role;
+        
+
+
+
         //------------ UI Component Declarations & Initializations ------------
     	
         JLabel				RequestTitle, topLabel,
                             RQNameDisplay, packageDisplay, 
                             RQNumDisplay, boardDisplay,
-                            dateDisplay, timeDisplay, 
-                            dayDisplay, costDisplay, 
-                            dueDisplay, hourDisplay,
-                            minuteDisplay, periodDisplay;
+                            dateDisplay, dayDisplay, 
+                            costDisplay, dueDisplay, 
+                            hourDisplay, minuteDisplay, 
+                            periodDisplay, durationDisplay;
         JPanel				formPanel, TopformPanel, 
                             BotformPanel, BotformPanel2,
                             topPanel, buttonPanel; // Container to align buttons side-by-side
         JButton				btnSubmit, btnCancel;
         JTextField			RQName, RQNum, boardInput, dateInput,
-                            dayInput, hourInput, minuteInput, periodInput, 
+                            dayInput, hourInput, minuteInput, durationInput,
                             costOutput, dueOutput;
-        JComboBox<String> 	boardType, packageType;
+        JComboBox<String> 	packBox, packPeriod;
         
         // JLabels, JButtons, JComboBox, and JTextFields
 
@@ -56,30 +62,35 @@ public class Rental_Request extends JFrame {
         minuteDisplay	= new JLabel("Minute");
         periodDisplay	= new JLabel("Period");
         dayDisplay		= new JLabel("Day(s)");
+        durationDisplay = new JLabel("Duration (Hour(s))");
         costDisplay		= new JLabel("Cost");
         dueDisplay		= new JLabel("Due Rent");
         packageDisplay	= new JLabel("Packcage");
 
         RQName			= new JTextField("Name");
         RQNum			= new JTextField("XXXXXXXXXXX");
-        boardInput		= new JTextField("XX");
+        boardInput		= new JTextField("00");
         dateInput		= new JTextField("00/00/0000");
-        hourInput		= new JTextField("XX");
-        minuteInput		= new JTextField("XX");
-        dayInput		= new JTextField("XX");
-        costOutput		= new JTextField("$$$$$$.$$", 15);
-        dueOutput		= new JTextField("00/00/0000 XX:XX");
+        hourInput		= new JTextField("00");
+        minuteInput		= new JTextField("00");
+        dayInput		= new JTextField("00");
+        durationInput   = new JTextField("00", 5);
+        costOutput		= new JTextField("$$$$$$.$$", 8);
+        dueOutput		= new JTextField("00/00/0000 XX:XX", 15);
 
         String [] pTime = {"AM", "PM"};
         String[] pack 	= {"No Instructor","With Instructor"};
-        JComboBox<String> packBox = new JComboBox<>(pack);
-        JComboBox<String> packPeriod = new JComboBox<>(pTime);
+        packBox = new JComboBox<>(pack);
+        packPeriod = new JComboBox<>(pTime);
 
         btnSubmit 		= new JButton("Done");
         btnCancel 		= new JButton("Cancel");
 
 
         getContentPane().setBackground		(new Color(0xc4d2e0));
+
+        costOutput.setEditable(false);
+        dueOutput.setEditable(false);
 
 
         //---------------------------------------------------------------------
@@ -134,14 +145,15 @@ public class Rental_Request extends JFrame {
 
         // Bottom Request Form Panel 
         BotformPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 10)); 
-        BotformPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+        BotformPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         BotformPanel.setOpaque(true); 
         
         BotformPanel.add	(dateDisplay);		BotformPanel.add	(dateInput);
         BotformPanel.add	(hourDisplay);		BotformPanel.add	(hourInput);
         BotformPanel.add	(minuteDisplay);	BotformPanel.add	(minuteInput);
-        BotformPanel.add	(dayDisplay);		BotformPanel.add	(dayInput);
         BotformPanel.add	(periodDisplay);	BotformPanel.add	(packPeriod);
+        BotformPanel.add    (durationDisplay);  BotformPanel.add    (durationInput);
+        BotformPanel.add	(dayDisplay);		BotformPanel.add	(dayInput);
 
         BotformPanel2 = new JPanel();
         BotformPanel2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
@@ -162,13 +174,6 @@ public class Rental_Request extends JFrame {
         
         
         // Events
-        btnSubmit.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        
-        }
-        });
-        
         // Cancel Event Logic
         btnCancel.addActionListener(new ActionListener() {
             @Override
@@ -183,15 +188,104 @@ public class Rental_Request extends JFrame {
             }
         });
 
+        packBox.addActionListener(new ActionListener() {
+            
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String pack_choice = packBox.getSelectedItem().toString();
+
+                if (pack_choice.equals("With Instructor")){
+                    durationInput.setText("02");
+                    dayInput.setText("00");
+
+                    
+                    durationInput.setEditable(false);
+                    dayInput.setEditable(false);
+                } else {
+                    durationInput.setText("00");
+                    dayInput.setText("XX");
+
+                    durationInput.setEditable(true);
+                    dayInput.setEditable(true);
+                }
+            }
+        });
+
+        FocusListener liveDue = new FocusAdapter() {
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                String date = dateInput.getText();
+                String hour = hourInput.getText();
+                String minute = minuteInput.getText();
+                String period = packPeriod.getSelectedItem().toString();
+
+                dueOutput.setText(date + " " + hour + ":" + minute + " " + period);
+                ;
+            }
+            
+        };
+
+        dateInput.addFocusListener(liveDue);
+        hourInput.addFocusListener(liveDue);
+        minuteInput.addFocusListener(liveDue);
+        
+
         // Submit Event
         btnSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                /*  1 hour = 200
+                    2hrs with Instructor = 1500
+                    1 day = 600
+                   */
+                double total_cost = 0;
+                int day = 600;
+                int hour = 200;
+                int packInstructor = 1500;
+                
+                String surfboardName = "Surfboard";
+                String name = RQName.getText();
+                String Contact_Num = RQNum.getText();
+                String period_choice = packPeriod.getSelectedItem().toString();
+                String pack_choice = packBox.getSelectedItem().toString();
+                String date_choice = dateInput.getText();
+
+                try {
+                    int hour_choice     = Integer.parseInt(hourInput.getText().trim());
+                    int min_choice      = Integer.parseInt(minuteInput.getText().trim());
+                    int day_choice      = Integer.parseInt(dayInput.getText().trim());
+                    int Surfboard_Num   = Integer.parseInt(boardInput.getText().trim());
+                    int duration_choice = Integer.parseInt(durationInput.getText().trim());
+
+                    if (pack_choice.equals("With Instructor")) {
+                        total_cost = packInstructor * Surfboard_Num;
+                    } else {
+                        total_cost = (day_choice * day + duration_choice * hour) * Surfboard_Num;
+                    }
+
+                    costOutput.setEditable(true);
+                    costOutput.setText(String.format("₱ %.2f", total_cost));
+                    dueOutput.setText(String.format("%s %02d:%02d %s",
+                        date_choice, hour_choice, min_choice, period_choice));
+
+                    JOptionPane.showMessageDialog(null,
+                    "Rental submitted!\nCost: " + String.format("₱ %.2f", total_cost));
+                    costOutput.setEditable(false);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null,
+                        "Please fill in all fields with valid numbers.\n(" + ex.getMessage() + ")");
+                        return; // ← Stop here, don't dispose
+                    }   
+                
+
                 dispose();
-                if("Admin".equalsIgnoreCase(role)){
-                    new Admin_List("Admin");
+                Rent_Data.addRental(dueOutput.getText(), total_cost, "In use");
+                if ("Admin".equalsIgnoreCase(role)) {
+                    new Admin_List(role);
                 } else {
-                    new Rental_List("User");
+                    new Rental_List(role);
                 }
             }
         });
@@ -227,6 +321,7 @@ public class Rental_Request extends JFrame {
         minuteDisplay.setForeground		(new Color(0xad9a6f));
         periodDisplay.setForeground		(new Color(0xad9a6f));
         dayDisplay.setForeground		(new Color(0xad9a6f));
+        durationDisplay.setForeground	(new Color(0xad9a6f));
         costDisplay.setForeground		(new Color(0xad9a6f));
         dueDisplay.setForeground		(new Color(0xad9a6f));
 
@@ -235,5 +330,8 @@ public class Rental_Request extends JFrame {
         setLocationRelativeTo			(null);
         setVisible						(true);
     }
+
+
+    
 
 }

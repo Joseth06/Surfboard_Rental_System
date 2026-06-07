@@ -26,6 +26,19 @@ import java.awt.event.*;
 
 public class Admin_List extends JFrame {
     private String currentAcc;
+    private JPanel scrollPanel;
+    private int gapHeight;
+    private int rentCount = 1;
+
+    public void addAdminRent(String name, String stat, String due, double cost) {
+        rentCount++;
+        panels p = new panels();
+        scrollPanel.add(Box.createVerticalStrut(gapHeight));
+        scrollPanel.add(p.AdminRentList("Surfboard " + rentCount, stat, due, cost, this));
+        scrollPanel.revalidate();
+        scrollPanel.repaint();
+    }
+    
     Admin_List(String acc){
         this.currentAcc = acc;
         //------------ UI Component Declarations & Initializations ------------
@@ -36,7 +49,7 @@ public class Admin_List extends JFrame {
                     scrollPanel;
         JButton 	rentalRQ, surfLogout;
         
-        JScrollPane scroll;
+        
         
         //JLabels, JButtons, and JScrollPane
         SurfListTitle 	= new JLabel("Surf Boards List", SwingConstants.CENTER);
@@ -49,8 +62,7 @@ public class Admin_List extends JFrame {
         
 
        
-        //Scroll Feature, deal with later on.
-        scroll 		= new JScrollPane();
+        
 
 
         //---------------------------------------------------------------------
@@ -91,12 +103,14 @@ public class Admin_List extends JFrame {
         
         // Box Layout cuz idk how I would've figured that out in Gridlayout
         scrollPanel.setLayout	(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS)); 
-        scrollPanel.add			(p1.AdminRentList("Surfboard1", "In use", "00/00/0000 XX:XX", this));
-        scrollPanel.add			(Box.createVerticalStrut(gapHeight)); // Gap
+        panels p = new panels();
+        for (Rent_Data.RentalEntry entry : Rent_Data.rentals) {
+        scrollPanel.add(p.AdminRentList(entry.boardName, entry.status, entry.due, entry.cost, this));
+        scrollPanel.add(Box.createVerticalStrut(gapHeight));
+        }
         
         
-        // Initialize scroll container with your panel nestled inside
-        scroll = new JScrollPane(scrollPanel);
+       
 
         
 
@@ -141,11 +155,5 @@ public class Admin_List extends JFrame {
         setDefaultCloseOperation	(EXIT_ON_CLOSE);
         setLocationRelativeTo		(null);
 
-
-        //---------------------------------------------------------------------
-        
-
-        //------------------------- Start of Program --------------------------
-        
     }
 }
