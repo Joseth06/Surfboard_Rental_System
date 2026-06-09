@@ -8,18 +8,9 @@ import java.awt.event.*;
 * 	> Panel Layouts & Containers
 * 	> Finalized Interface & Styling
 * 
-* Change Log (06-01-2026, 10:32:26 AM)
+* Change Log (06-09-2026, 3:10:15 PM)
 * Additions
-* 1) Added tab spacing for readability
-* 2) Added background text "password" visibility 
-* 3) Utilized Grid Bag Constraints for mapping out panels.
-* 
-* Modifications
-* MainPanel 	--> loginPanel
-* 
-* 
-* Change Log (06-01-2026, 01:58:26 PM)
-* 1) Transfered code from Login_Page.java
+* 1) Added username and password input visibility
 */
 
 public class SurfBoard extends JFrame {
@@ -41,8 +32,8 @@ public class SurfBoard extends JFrame {
         LoginTitle.setFont(new Font("Arial", Font.BOLD, 30));
         
         login		= new JLabel("Login", SwingConstants.CENTER);
-        name 		= new JTextField("username", 15);
-        pass 		= new JPasswordField("password", 15);
+        name 		= new JTextField(" username", 15);
+        pass 		= new JPasswordField(" password", 15);
         btnSignIn 	= new JButton("Sign In");
 
         getContentPane().setBackground		(new Color(0xc4d2e0));
@@ -54,7 +45,7 @@ public class SurfBoard extends JFrame {
         //--------------------------- Panel Layouts ---------------------------
 
         //Top Panel / Header of Page
-        top 		= new JPanel();
+        top 			= new JPanel();
         top.setLayout	(new BorderLayout());
         top.setBorder	(BorderFactory.createEmptyBorder(10, 0, 10, 10));
         top.add			(LoginTitle);
@@ -69,18 +60,18 @@ public class SurfBoard extends JFrame {
 
         pass.setMaximumSize		(new Dimension(200, 35));
         pass.setAlignmentX		(Component.CENTER_ALIGNMENT);
-        pass.setEchoChar((char) 0);
+        pass.setEchoChar		((char) 0);
 
         // Button
         btnSignIn.setMaximumSize	(new Dimension(100, 35));
         btnSignIn.setAlignmentX		(Component.CENTER_ALIGNMENT);
 
         // Login Panel
-        loginPanel 	= new JPanel();
+        loginPanel						= new JPanel();
         loginPanel.setPreferredSize		(new Dimension(265, 285));
         loginPanel.setBackground		(new Color(0x1a3052));
 
-        loginPanel.setLayout		(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
+        loginPanel.setLayout	(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
         loginPanel.add			(Box.createVerticalStrut(20));
         loginPanel.add			(login);
         loginPanel.add			(Box.createVerticalStrut(40));
@@ -99,29 +90,72 @@ public class SurfBoard extends JFrame {
         
         
         // Events
-        btnSignIn.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        String Inputusername 	= name.getText();
-        String Inputpassword 	= new String(pass.getPassword());
+        name.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (name.getText().equals(" username")) {
+                    name.setText			("");
+                    name.setForeground		(Color.BLACK);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (name.getText().trim().isEmpty()) {
+                    name.setText			(" username");
+                    name.setForeground		(Color.GRAY);
+                }
+            }
+        });
 
-        if (Inputusername.equals("user") && Inputpassword.equals("123")) {
-            JOptionPane.showMessageDialog(loginPanel, "Login successfully, Welcome Customer!");
-            dispose();
-            new Rental_List();
-            
-        } else {
-            JOptionPane.showMessageDialog(loginPanel, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        pass.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                String passwordStr 		= new String(pass.getPassword());
+                if (passwordStr.equals(" password")) {
+                    pass.setText			("");
+                    pass.setForeground		(Color.BLACK);
+                    pass.setEchoChar		('●'); 
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                String passwordStr 		= new String(pass.getPassword());
+                if (passwordStr.trim().isEmpty()) {
+                    pass.setText			(" password");
+                    pass.setForeground		(Color.GRAY);
+                    pass.setEchoChar		((char) 0); 
+                }
             }
         });
         
+        btnSignIn.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	String Inputusername 	= name.getText();
+	        	String Inputpassword 	= new String(pass.getPassword());
+	
+	        	if (Inputusername.equals("user") && Inputpassword.equals("123")) {
+	        		JOptionPane.showMessageDialog	(loginPanel, "Login successfully, Welcome Customer!");
+	        		dispose();
+	        		new Rental_List					("user");
+	        	} 
+	        	else if (Inputusername.equals("admin") && Inputpassword.equals("000")){
+	        		JOptionPane.showMessageDialog	(loginPanel, "Login successfully, Welcome Admin!");
+	        		dispose();  
+	        		new Admin_List					("admin");
+	        	} 
+	        	else {
+	        		JOptionPane.showMessageDialog	(loginPanel, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+	        	}
+	        }
+        });
+        
         // Make Header bg transparent
-        top.setOpaque(false); 
+        top.setOpaque		(false); 
 
         //Overall Window
-        setLayout(new GridBagLayout());
-        GridBagConstraints GBConstraints = new GridBagConstraints();
+        setLayout							(new GridBagLayout());
+        GridBagConstraints GBConstraints	= new GridBagConstraints();
         
         // Center Align Panels
         GBConstraints.gridx		= 0;                      
@@ -131,13 +165,13 @@ public class SurfBoard extends JFrame {
         GBConstraints.gridy		= 0;                       
         GBConstraints.weighty	= 3;                    
         GBConstraints.anchor	= GridBagConstraints.CENTER;
-        add				(top, GBConstraints);
+        add						(top, GBConstraints);
 
         // Login Panel [Row 1]
         GBConstraints.gridy		= 1;                    
         GBConstraints.weighty	= 3;                    
         GBConstraints.anchor	= GridBagConstraints.NORTH;
-        add(loginPanel, GBConstraints);
+        add						(loginPanel, GBConstraints);
 
         //Component Colors
         LoginTitle.setForeground	(new Color(0x1a3052));
@@ -154,10 +188,9 @@ public class SurfBoard extends JFrame {
         setDefaultCloseOperation	(EXIT_ON_CLOSE);
         setLocationRelativeTo		(null);
         setVisible					(true);
+        loginPanel.requestFocusInWindow(); 
     }
     
-    
-
     public static void main(String[] args) {
         new SurfBoard();
     }

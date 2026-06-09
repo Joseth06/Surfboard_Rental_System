@@ -24,26 +24,23 @@ import java.awt.event.*;
  * add 			--> rentalRQ
 */
 
-public class Rental_List extends JFrame {
-    private String		currentAcc;
-    private JPanel		scrollPanel;   // ← promoted from local
-    private int			gapHeight;
-    private int			rentCount = 0;
+public class Admin_List extends JFrame {
+    private String currentAcc;
+    private JPanel scrollPanel;
+    private int gapHeight;
+    private int rentCount = 1;
 
-
-    public void addRentCus(String name, String due, double cost) {
-        rentCount++;   
-        panels p 			= new panels();
-        scrollPanel.add		(Box.createVerticalStrut(gapHeight));
-        scrollPanel.add		(p.addRentCus("Surfboard " + rentCount, due, cost));
+    public void addAdminRent(String name, String stat, String due, double cost, Rent_Data.RentalEntry entry) {
+        rentCount++;
+        panels p = new panels();
+        scrollPanel.add(Box.createVerticalStrut(gapHeight));
+        scrollPanel.add(p.AdminRentList("Surfboard " + rentCount, stat, due, cost, this, entry));
         scrollPanel.revalidate();
         scrollPanel.repaint();
     }
-
-    Rental_List(String acc){
-        this.currentAcc = acc;
     
-        
+    Admin_List(String acc){
+        this.currentAcc = acc;
         //------------ UI Component Declarations & Initializations ------------
     	
         JLabel 		SurfListTitle;
@@ -51,19 +48,21 @@ public class Rental_List extends JFrame {
                     statusCTR2, gapPanel;
         JButton 	rentalRQ, surfLogout;
         JScrollPane scroll;
-
+        
         
         
         //JLabels, JButtons, and JScrollPane
-        SurfListTitle	= new JLabel("Surf Boards List", SwingConstants.CENTER);
+        SurfListTitle 	= new JLabel("Surf Boards List", SwingConstants.CENTER);
         SurfListTitle.setFont(new Font("Arial", Font.BOLD, 20));
         
-        //JButton to Rental Request Form
-        rentalRQ		= new JButton("+");
-        surfLogout		= new JButton("Surf out");
 
-        //Scroll Feature, deal with later on.
-        scroll			= new JScrollPane();
+        //JButton to Rental Request Form
+        surfLogout  = new JButton("Surf out");
+        rentalRQ 	= new JButton("+");
+        
+
+       
+        
 
 
         //---------------------------------------------------------------------
@@ -72,54 +71,46 @@ public class Rental_List extends JFrame {
         //-------------------- Panel Layouts & Containers ---------------------
         
         //Top Panel / Header of Page
-        top 			= new JPanel();
+        top 		= new JPanel();
         top.setLayout	(new BorderLayout());
         top.setBorder	(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         top.add         (surfLogout, BorderLayout.WEST);
-        top.add         (SurfListTitle, BorderLayout.CENTER);
+        top.add			(SurfListTitle, SwingConstants.CENTER);
         top.add			(rentalRQ, BorderLayout.EAST);
 
         // Dimension constants
-        int itemWidth		= 330;
-        int itemHeight		= 90;
-        gapHeight			= (int) (itemHeight * 0.20); 
-        Dimension itemSize	= new Dimension(itemWidth, itemHeight);
+        int itemWidth = 330;
+        int itemHeight = 120;
+        gapHeight = (int) (itemHeight * 0.20); 
+        Dimension itemSize = new Dimension(itemWidth, itemHeight);
 
-        //Status Panel 
-        panels p = new panels();
+        //Status Panels
+        panels p1 = new panels();
+    
+        statusCTR2 	= new JPanel(new GridBagLayout());
+        
+
         
         //Status Panel for Spacing between Equipments
-        gapPanel 					= new JPanel();
+        gapPanel 	= new JPanel();
         gapPanel.setLayout			(new GridLayout());
         gapPanel.setPreferredSize	(new Dimension(330,90));
         gapPanel.setBorder			(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         
         // Container for Panels
-        scrollPanel				= new JPanel();
+        scrollPanel = new JPanel();
         scrollPanel.setBorder	(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         
         // Box Layout cuz idk how I would've figured that out in Gridlayout
         scrollPanel.setLayout	(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS)); 
-        panels p1 = new panels();
-        
+        panels p = new panels();
         for (Rent_Data.RentalEntry entry : Rent_Data.rentals) {
-            if (entry.status != null && entry.status.equalsIgnoreCase("In use")) {
-                scrollPanel.add		(p.addRentCus(entry.boardName, 
-                								  entry.due, 
-                								  entry.cost));
-            } else {
-                scrollPanel.add		(p.addRentCus(entry.boardName, 
-                								  entry.status, 
-                								  entry.cost));
-            }
-            scrollPanel.add(Box.createVerticalStrut(gapHeight));
+        scrollPanel.add(p.AdminRentList(entry.boardName, entry.status, entry.due, entry.cost, this, entry));
+        scrollPanel.add(Box.createVerticalStrut(gapHeight));
         }
-        
 
-        // Initialize scroll container with your panel nestled inside
         scroll = new JScrollPane(scrollPanel);
-
-        
+       
 
         //---------------------------------------------------------------------
         
@@ -132,13 +123,12 @@ public class Rental_List extends JFrame {
         {
             public void actionPerformed(ActionEvent e)
             {
-                new Rental_Request(currentAcc);
+                new Rental_Request("Admin");
                 dispose();
             }  
         });
 
         surfLogout.addActionListener(new ActionListener() {
-            
             public void actionPerformed(ActionEvent e){
                 new SurfBoard();
                 dispose();
@@ -148,17 +138,19 @@ public class Rental_List extends JFrame {
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setUnitIncrement(14);
-        
+
         //Overall Window
         setLayout	(new BorderLayout()); 
-        add			(top, BorderLayout.NORTH); //Adds header to the frame.
-        add			(scroll, BorderLayout.CENTER); // Adds scroll container.
+        add			(top, BorderLayout.NORTH); //Adds header to the frame
+        add			(scrollPanel, BorderLayout.CENTER); // Adds scrollable panel container to the frame
 
 
         //Component Colors
         SurfListTitle.setForeground		(new Color(0xad9a6f));
-        
 
+  	  	
+    
+          
         // Window Parameters
         setSize						(417,485);
         setVisible					(true);
@@ -166,5 +158,4 @@ public class Rental_List extends JFrame {
         setLocationRelativeTo		(null);
 
     }
-    
 }
