@@ -1,6 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 /* 
 * Navigation Guide
@@ -54,44 +54,51 @@ public class SurfBoard extends JFrame {
         //--------------------------- Panel Layouts ---------------------------
 
         //Top Panel / Header of Page
-        top 		= new JPanel();
-        top.setLayout	(new BorderLayout());
-        top.setBorder	(BorderFactory.createEmptyBorder(10, 0, 10, 10));
-        top.add			(LoginTitle);
-        
-        // Login
-        login.setFont			(new Font("Arial", Font.BOLD, 28));
-        login.setAlignmentX		(Component.CENTER_ALIGNMENT);
+        top         = new JPanel();
+        top.setLayout   (new BorderLayout());
+        top.setBorder   (BorderFactory.createEmptyBorder(10, 0, 10, 10));
+        top.setBackground(new Color(0x0077B6));
+        top.add         (LoginTitle);
+        LoginTitle.setForeground(new Color(0xFFFFFF));
+
+       // Login
+        login.setFont           (new Font("Arial", Font.BOLD, 28));
+        login.setAlignmentX     (Component.CENTER_ALIGNMENT);
+        login.setForeground(new Color(0xFFFFFF));
 
         // Username & Password
-        name.setMaximumSize		(new Dimension(200, 35));
-        name.setAlignmentX		(Component.CENTER_ALIGNMENT);
+        name.setMaximumSize     (new Dimension(200, 35));
+        name.setAlignmentX      (Component.CENTER_ALIGNMENT);
+        name.setBackground(new Color(0xFFFFFF));
+        name.setForeground(new Color(0x000000));
 
-        pass.setMaximumSize		(new Dimension(200, 35));
-        pass.setAlignmentX		(Component.CENTER_ALIGNMENT);
+        pass.setMaximumSize     (new Dimension(200, 35));
+        pass.setAlignmentX      (Component.CENTER_ALIGNMENT);
         pass.setEchoChar((char) 0);
+        pass.setBackground(new Color(0xFFFFFF));
+        pass.setForeground(new Color(0x000000));
+
 
         // Button
-        btnSignIn.setMaximumSize	(new Dimension(100, 35));
-        btnSignIn.setAlignmentX		(Component.CENTER_ALIGNMENT);
+        btnSignIn.setMaximumSize    (new Dimension(100, 35));
+        btnSignIn.setAlignmentX     (Component.CENTER_ALIGNMENT);
+        btnSignIn.setBackground(new Color(0x0077B6));
+        btnSignIn.setForeground(new Color(0xFFFFFF));
 
-        // Login Panel
-        loginPanel 	= new JPanel();
-        loginPanel.setPreferredSize		(new Dimension(265, 285));
-        loginPanel.setBackground		(new Color(0x1a3052));
-
-        loginPanel.setLayout		(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
-        loginPanel.add			(Box.createVerticalStrut(20));
-        loginPanel.add			(login);
-        loginPanel.add			(Box.createVerticalStrut(40));
-        loginPanel.add			(name);
-        loginPanel.add			(Box.createVerticalStrut(20));
-        loginPanel.add			(pass);
-        loginPanel.add			(Box.createVerticalStrut(20));
-        loginPanel.add			(btnSignIn);
-        loginPanel.add			(Box.createVerticalStrut(40));
-
-
+         // Login Panel
+        loginPanel  = new JPanel();
+        loginPanel.setPreferredSize     (new Dimension(265, 285));
+        loginPanel.setBackground        (new Color(0x00B4D8));   // ← Login panel background
+        loginPanel.setLayout        (new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
+        loginPanel.add          (Box.createVerticalStrut(20));
+        loginPanel.add          (login);
+        loginPanel.add          (Box.createVerticalStrut(40));
+        loginPanel.add          (name);
+        loginPanel.add          (Box.createVerticalStrut(20));
+        loginPanel.add          (pass);
+        loginPanel.add          (Box.createVerticalStrut(20));
+        loginPanel.add          (btnSignIn);
+        loginPanel.add          (Box.createVerticalStrut(40));
         //---------------------------------------------------------------------
         
         
@@ -146,24 +153,56 @@ public class SurfBoard extends JFrame {
         //Component Colors
         LoginTitle.setForeground	(new Color(0x1a3052));
         
-        login.setForeground			(new Color(0xf4efe9));
-        name.setForeground			(Color.GRAY);
-        pass.setForeground			(Color.GRAY);
-        btnSignIn.setBackground		(new Color(0xad9a6f));
+        login.setForeground         (new Color(0xE0F2FF));
+        name.setBackground          (new Color(0xF0F4F8));
+        name.setForeground          (new Color(0x555555));
+        pass.setBackground          (new Color(0xF0F4F8));
+        pass.setForeground          (new Color(0x555555));
+        btnSignIn.setBackground     (new Color(0x2E86C1));
+        btnSignIn.setForeground     (new Color(0xFFFFFF));
 
         //Main Panel Color
-        loginPanel.setBackground	(new Color(0x1a3052));
+        loginPanel.setBackground    (new Color(0x1D3557));
+
+        //Content Pane
+        BackgroundPanel bgPanel = new BackgroundPanel("Surfboard_Rental_System/SurfBoard_Rental/src/waves.jpg"); 
+        bgPanel.setLayout(new GridBagLayout());
+        setContentPane(bgPanel);
+
+        // Top Header [Row 0]
+        GBConstraints.gridy     = 0;
+        GBConstraints.weighty   = 3;
+        GBConstraints.anchor    = GridBagConstraints.CENTER;
+        bgPanel.add(top, GBConstraints);
+
+        // Login Panel [Row 1]
+        GBConstraints.gridy     = 1;
+        GBConstraints.weighty   = 3;
+        GBConstraints.anchor    = GridBagConstraints.NORTH;
+        bgPanel.add(loginPanel, GBConstraints);
 
         setSize						(417, 485);
         setDefaultCloseOperation	(EXIT_ON_CLOSE);
         setLocationRelativeTo		(null);
         setVisible					(true);
     }
-    
-    
 
     public static void main(String[] args) {
         Rent_Data.loadFromFile();
         new SurfBoard();
     }
+
+    class BackgroundPanel extends JPanel {
+    private Image image;
+    
+    BackgroundPanel(String imagePath) {
+        image = new ImageIcon(imagePath).getImage();
+    }
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+}
 }

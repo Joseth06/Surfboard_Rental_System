@@ -1,6 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import javax.swing.*;
 
 public class panels{
     private int itemWidth = 330;
@@ -24,7 +23,7 @@ public class panels{
     public panels(){
         
     }
-    // Customer List
+     // Customer List
     public Component addRentCus(String name, String Due, double cost, JFrame parentFrame, Rent_Data.RentalEntry entry){
         viewCus = new JButton("View");
         nameBoard  = new JLabel(name);
@@ -56,8 +55,8 @@ public class panels{
             new Rental_Request("User", entry);
         });
         //Colors
-        nameBoard.setForeground (new Color(0xad9a6f));
-        displayDue.setForeground(new Color(0xad9a6f));
+        nameBoard.setForeground (new Color(0xF5F0EB));
+        displayDue.setForeground(new Color(0xF5F0EB));
         EQPStatus.setBackground(new Color(0x1a3052)); 
 
         return EQPStatus;
@@ -124,9 +123,13 @@ public class panels{
         EQPStatus.add(totalRows, BorderLayout.CENTER);
 
         //Colors
-        nameBoard.setForeground (new Color(0xad9a6f));
-        displayDue.setForeground(new Color(0xad9a6f));
-        status.setForeground(new Color(0xad9a6f));
+        nameBoard.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        nameBoard.setForeground(new Color(0xE8F4FD));
+
+        displayDue.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        displayDue.setForeground(new Color(0xE8F4FD));
+
+        status.setForeground(new Color(0xE8F4FD));
         EQPStatus.setBackground(new Color(0x1a3052));
 
         return EQPStatus;

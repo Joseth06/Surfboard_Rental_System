@@ -1,6 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 
 /* 
@@ -92,10 +92,12 @@ public class Rental_Request extends JFrame{
         btnCancel 		= new JButton("Cancel");
 
 
-        getContentPane().setBackground		(new Color(0xc4d2e0));
+        getContentPane().setBackground		(new Color(0xF5F0EB));
 
         costOutput.setEditable(false);
+        costOutput.setForeground(new Color(0x000000));
         dueOutput.setEditable(false);
+        dueOutput.setForeground(new Color(0x000000));
 
 
         //---------------------------------------------------------------------
@@ -104,73 +106,73 @@ public class Rental_Request extends JFrame{
         //--------------------------- Panel Layouts ---------------------------
 
         //Top Panel / Header of Page
-        topPanel 		= new JPanel();
-        topPanel.setLayout			(new BorderLayout());
-        topPanel.setBorder			(BorderFactory.createEmptyBorder(10, 0, 10, 10));
-        topPanel.add				(RequestTitle);
-        topPanel.setOpaque			(false); 
+        topPanel         = new JPanel();
+        topPanel.setLayout            (new BorderLayout());
+        topPanel.setBorder            (BorderFactory.createEmptyBorder(10, 0, 10, 10));
+        topPanel.add                (RequestTitle);
+        topPanel.setOpaque            (false); 
         
         // Form Header Text
-        topLabel.setFont			(new Font("Arial", Font.BOLD, 26));
-        topLabel.setAlignmentX		(Component.CENTER_ALIGNMENT);
+        topLabel.setFont            (new Font("Arial", Font.BOLD, 26));
+        topLabel.setAlignmentX        (Component.CENTER_ALIGNMENT);
 
         // Input Field Labels Styling
-        RQName.setFont       		(new Font("Arial", Font.PLAIN, 12));
-        RQName.setAlignmentX 		(Component.CENTER_ALIGNMENT);
+        RQName.setFont               (new Font("Arial", Font.PLAIN, 12));
+        RQName.setAlignmentX         (Component.CENTER_ALIGNMENT);
         
         
         // Horizontal Button Layout Panel
-        buttonPanel 	= new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setOpaque			(false); // Keeps form panel background clean
-        buttonPanel.setMaximumSize		(new Dimension(250, 35));
+        buttonPanel     = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setOpaque            (false); // Keeps form panel background clean
+        buttonPanel.setMaximumSize        (new Dimension(250, 35));
         
         // Size bounds matching form alignment architecture
-        btnCancel.setPreferredSize		(new Dimension(90, 32));
-        btnSubmit.setPreferredSize		(new Dimension(110, 32));
+        btnCancel.setPreferredSize        (new Dimension(90, 32));
+        btnSubmit.setPreferredSize        (new Dimension(110, 32));
         
         // btnPanel
-        buttonPanel.add		(btnCancel);
-        buttonPanel.add		(btnSubmit);
+        buttonPanel.add        (btnCancel);
+        buttonPanel.add        (btnSubmit);
 
         // Request Form Panel 
         formPanel = new JPanel();
-        formPanel.setPreferredSize		(new Dimension(420, 395)); 
-        formPanel.setBackground			(new Color(0x1a3052));
-        formPanel.setBorder				(BorderFactory.createEmptyBorder(15, 20, 5, 20)); 
-        formPanel.setLayout				(new BoxLayout(formPanel, BoxLayout.Y_AXIS));;
+        formPanel.setPreferredSize        (new Dimension(420, 395)); 
+        formPanel.setBackground            (new Color(0x1a3052));
+        formPanel.setBorder                (BorderFactory.createEmptyBorder(15, 20, 5, 20)); 
+        formPanel.setLayout                (new BoxLayout(formPanel, BoxLayout.Y_AXIS));;
 
         // Top Request Form Panel
         TopformPanel = new JPanel();
         TopformPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        TopformPanel.setLayout			(new GridLayout(4,4, 10, 10));
-        TopformPanel.add	(RQNameDisplay);	TopformPanel.add	(RQName);
-        TopformPanel.add	(RQNumDisplay);		TopformPanel.add	(RQNum);
-        TopformPanel.add	(boardDisplay);		TopformPanel.add	(boardInput);
-        TopformPanel.add	(packageDisplay);	TopformPanel.add	(packBox);
+        TopformPanel.setLayout            (new GridLayout(4,4, 10, 10));
+        TopformPanel.add    (RQNameDisplay);    TopformPanel.add    (RQName);
+        TopformPanel.add    (RQNumDisplay);        TopformPanel.add    (RQNum);
+        TopformPanel.add    (boardDisplay);        TopformPanel.add    (boardInput);
+        TopformPanel.add    (packageDisplay);    TopformPanel.add    (packBox);
 
         // Bottom Request Form Panel 
         BotformPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 10)); 
         BotformPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         BotformPanel.setOpaque(true); 
         
-        BotformPanel.add	(dateDisplay);		BotformPanel.add	(dateInput);
-        BotformPanel.add	(hourDisplay);		BotformPanel.add	(hourInput);
-        BotformPanel.add	(minuteDisplay);	BotformPanel.add	(minuteInput);
-        BotformPanel.add	(periodDisplay);	BotformPanel.add	(packPeriod);
+        BotformPanel.add    (dateDisplay);        BotformPanel.add    (dateInput);
+        BotformPanel.add    (hourDisplay);        BotformPanel.add    (hourInput);
+        BotformPanel.add    (minuteDisplay);    BotformPanel.add    (minuteInput);
+        BotformPanel.add    (periodDisplay);    BotformPanel.add    (packPeriod);
         BotformPanel.add    (durationDisplay);  BotformPanel.add    (durationInput);
-        BotformPanel.add	(dayDisplay);		BotformPanel.add	(dayInput);
+        BotformPanel.add    (dayDisplay);        BotformPanel.add    (dayInput);
 
         BotformPanel2 = new JPanel();
         BotformPanel2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
-        BotformPanel2.add	(costDisplay); 		BotformPanel2.add	(costOutput);
-        BotformPanel2.add	(dueDisplay); 		BotformPanel2.add	(dueOutput);
+        BotformPanel2.add    (costDisplay);         BotformPanel2.add    (costOutput);
+        BotformPanel2.add    (dueDisplay);         BotformPanel2.add    (dueOutput);
 
-        BotformPanel.add	(BotformPanel2);
+        BotformPanel.add    (BotformPanel2);
 
         // Overall Request Form Panel
-        formPanel.add		(TopformPanel);
-        formPanel.add		(BotformPanel);
-        formPanel.add		(buttonPanel);
+        formPanel.add        (TopformPanel);
+        formPanel.add        (BotformPanel);
+        formPanel.add        (buttonPanel);
 
         //---------------------------------------------------------------------
         

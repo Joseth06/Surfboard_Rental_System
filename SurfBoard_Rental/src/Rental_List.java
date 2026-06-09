@@ -1,6 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
  /* 
  * Navigation Guide
@@ -66,34 +66,45 @@ public class Rental_List extends JFrame {
         //-------------------- Panel Layouts & Containers ---------------------
         
         //Top Panel / Header of Page
-        top 		= new JPanel();
-        top.setLayout	(new BorderLayout());
-        top.setBorder	(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        top         = new JPanel();
+        top.setLayout   (new BorderLayout());
+        top.setBorder   (BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        top.setBackground(new Color(0x1D3557));
+        surfLogout.setBackground(new Color(0x2E86C1));
+        surfLogout.setForeground(new Color(0xFFFFFF));
+        rentalRQ.setBackground(new Color(0x2E86C1));
+        rentalRQ.setForeground(new Color(0xFFFFFF));
+        
+        JPanel titleOverlay = new JPanel(new BorderLayout());
+        titleOverlay.setOpaque(false);
+        titleOverlay.add(SurfListTitle, BorderLayout.CENTER);
+
         top.add         (surfLogout, BorderLayout.WEST);
         top.add         (SurfListTitle, BorderLayout.CENTER);
-        top.add			(rentalRQ, BorderLayout.EAST);
+        top.add         (rentalRQ, BorderLayout.EAST);
 
         // Dimension constants
         int itemWidth = 330;
         int itemHeight = 90;
-        gapHeight = (int) (itemHeight * 0.20); 
+        gapHeight = (int) (itemHeight * 0.20);
         Dimension itemSize = new Dimension(itemWidth, itemHeight);
 
         //Status Panel 
         panels p = new panels();
-        
+
         //Status Panel for Spacing between Equipments
-        gapPanel 	= new JPanel();
-        gapPanel.setLayout			(new GridLayout());
-        gapPanel.setPreferredSize	(new Dimension(330,90));
-        gapPanel.setBorder			(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        gapPanel    = new JPanel();
+        gapPanel.setLayout          (new GridLayout());
+        gapPanel.setPreferredSize   (new Dimension(330,90));
+        gapPanel.setBorder          (BorderFactory.createEmptyBorder(10, 20, 10, 20));
         
         // Container for Panels
         scrollPanel = new JPanel();
-        scrollPanel.setBorder	(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        scrollPanel.setBorder       (BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        scrollPanel.setBackground   (new Color(0xD6E4F0));   // ← scroll area background
         
         // Box Layout cuz idk how I would've figured that out in Gridlayout
-        scrollPanel.setLayout	(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS)); 
+        scrollPanel.setLayout   (new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
         for (Rent_Data.RentalEntry entry : Rent_Data.rentals) {
             scrollPanel.add(p.addRentCus(entry.boardName, entry.due, entry.cost, this, entry));
             scrollPanel.add(Box.createVerticalStrut(gapHeight));
@@ -103,8 +114,9 @@ public class Rental_List extends JFrame {
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
-        scroll.setBorder(null); 
-        add(scroll, BorderLayout.CENTER);
+        scroll.setBorder(null);
+        scroll.getViewport().setBackground(new Color(0xD6E4F0)); // ← viewport background
+        add(scroll, BorderLayout.CENTER); 
 
 
         
