@@ -24,7 +24,7 @@ public class panels{
     public panels(){
         
     }
-
+    // Customer List
     public Component addRentCus(String name, String Due, double cost, JFrame parentFrame, Rent_Data.RentalEntry entry){
         viewCus = new JButton("View");
         nameBoard  = new JLabel(name);
@@ -63,6 +63,7 @@ public class panels{
         return EQPStatus;
     }
 
+    // Admin List
     public Component AdminRentList(String name, String stat, String Due, double cost, JFrame parentFrame, Rent_Data.RentalEntry entry){
         nameBoard  = new JLabel(name);
         status = new JLabel(stat);
