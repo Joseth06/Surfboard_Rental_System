@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.time.Period;
+
 
 /* 
 * Navigation Guide
@@ -29,6 +29,8 @@ public class Rental_Request extends JFrame{
                             costOutput, dueOutput;
     private JComboBox<String> 	packBox, packPeriod;
 
+    private JButton btnSubmit;
+
 
 	Rental_Request(String role) {
         this.currentAcc = role;
@@ -48,7 +50,7 @@ public class Rental_Request extends JFrame{
         JPanel				formPanel, TopformPanel, 
                             BotformPanel, BotformPanel2,
                             topPanel, buttonPanel; // Container to align buttons side-by-side
-        JButton				btnSubmit, btnCancel;
+        JButton				btnCancel;
         
         
         // JLabels, JButtons, JComboBox, and JTextFields
@@ -71,14 +73,14 @@ public class Rental_Request extends JFrame{
         packageDisplay	= new JLabel("Packcage");
 
         RQName			= new JTextField("Name");
-        RQNum			= new JTextField("XXXXXXXXXXX");
+        RQNum			= new JTextField("###########");
         boardInput		= new JTextField("00");
         dateInput		= new JTextField("00/00/0000");
         hourInput		= new JTextField("00");
         minuteInput		= new JTextField("00");
         dayInput		= new JTextField("00");
         durationInput   = new JTextField("00", 5);
-        costOutput		= new JTextField("$$$$$$.$$", 8);
+        costOutput		= new JTextField("₱ 0.00", 8);
         dueOutput		= new JTextField("00/00/0000 XX:XX", 15);
 
         String [] pTime = {"AM", "PM"};
@@ -207,7 +209,7 @@ public class Rental_Request extends JFrame{
                     dayInput.setEditable(false);
                 } else {
                     durationInput.setText("00");
-                    dayInput.setText("XX");
+                    dayInput.setText("00");
 
                     durationInput.setEditable(true);
                     dayInput.setEditable(true);
@@ -254,7 +256,7 @@ public class Rental_Request extends JFrame{
                 int Surfboard_Num = 0;
                 int duration_choice = 0;
                 
-                String surfboardName = "Surfboard";
+                
                 String name = RQName.getText();
                 String Contact_Num = RQNum.getText();
                 String period_choice = packPeriod.getSelectedItem().toString();
@@ -268,11 +270,44 @@ public class Rental_Request extends JFrame{
                     Surfboard_Num   = Integer.parseInt(boardInput.getText().trim());
                     duration_choice = Integer.parseInt(durationInput.getText().trim());
 
+                    // Fields/Input checking
+                    if (name == "Name" || name.isEmpty()){
+                        JOptionPane.showMessageDialog(null, "Input a valid name.");
+                        return;
+                    }
+
+                    if (Contact_Num == "###########" || Contact_Num.isEmpty()){
+                        JOptionPane.showMessageDialog(null, "Input a valid phone number.");
+                        return;
+                    }
+
+                    if (Surfboard_Num == 00 || Surfboard_Num < 0) {
+                        JOptionPane.showMessageDialog(null, "Input a valid number of surfboards.");
+                        
+                        if (Surfboard_Num > Rent_Data.totalBoards) {
+                        JOptionPane.showMessageDialog(null, "Only " + Rent_Data.totalBoards + " surfboards available!");
+                        }
+                        return;
+                    }
+
+                    if (date_choice.equals("00/00/0000")){
+                        JOptionPane.showMessageDialog(null, "Input a valid date.");
+                        return;
+                    }
+                    if (hour_choice == 0 && duration_choice == 0 || hour_choice < 0 && duration_choice < 0){
+                        JOptionPane.showMessageDialog(null, "Input a valid hour.");
+                        return;
+                    }
+
+
                     if (pack_choice.equals("With Instructor")) {
                         total_cost = packInstructor * Surfboard_Num;
                     } else {
                         total_cost = (day_choice * day + duration_choice * hour) * Surfboard_Num;
                     }
+
+        
+                    
 
                     costOutput.setEditable(true);
                     costOutput.setText(String.format("₱ %.2f", total_cost));
@@ -288,7 +323,12 @@ public class Rental_Request extends JFrame{
                         return; // ← Stop here, don't dispose
                     }   
                 
-
+                if (editEntry == null && Rent_Data.isDuplicate(name)) {
+                    JOptionPane.showMessageDialog(null,
+                    "A rental for " + name + " already exists!", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
+                    return; 
+                }
+                // Checks if theres is an existing data  
                 if (editEntry != null) {
                     editEntry.custName  = name;
                     editEntry.phone     = Contact_Num;
@@ -308,7 +348,7 @@ public class Rental_Request extends JFrame{
                                         date_choice, hour_choice, min_choice, period_choice,
                                         duration_choice, day_choice, total_cost, dueOutput.getText());
                 }
-
+                Rent_Data.saveToFile();
                 dispose();
                 
                 if ("Admin".equalsIgnoreCase(role)) {
@@ -377,8 +417,23 @@ public class Rental_Request extends JFrame{
         dueOutput.setText(entry.due);
         packBox.setSelectedItem(entry.pack);
         packPeriod.setSelectedItem(entry.period);
-    }
-}
+
+        if ("User".equalsIgnoreCase(role)) {
+            RQName.setEditable(false);
+            RQNum.setEditable(false);
+            boardInput.setEditable(false);
+            dateInput.setEditable(false);
+            hourInput.setEditable(false);
+            minuteInput.setEditable(false);
+            dayInput.setEditable(false);
+            durationInput.setEditable(false);
+            packBox.setEnabled(false);
+            packPeriod.setEnabled(false);
+            btnSubmit.setVisible(false); // ← hide Done button
+            }
+        }
+
+    }   
 
     
 

@@ -102,8 +102,8 @@ public class SurfBoard extends JFrame {
         btnSignIn.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        String Inputusername 	= name.getText();
-        String Inputpassword 	= new String(pass.getPassword());
+        String Inputusername 	= name.getText().trim();
+        String Inputpassword 	= new String(pass.getPassword()).trim();
 
         if (Inputusername.equals("user") && Inputpassword.equals("123")) {
             JOptionPane.showMessageDialog(loginPanel, "Login successfully, Welcome Customer!");
@@ -163,6 +163,7 @@ public class SurfBoard extends JFrame {
     
 
     public static void main(String[] args) {
+        Rent_Data.loadFromFile();
         new SurfBoard();
     }
 }

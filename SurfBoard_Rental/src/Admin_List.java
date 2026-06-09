@@ -47,6 +47,7 @@ public class Admin_List extends JFrame {
         JPanel 		top, statusCTR1, 
                     statusCTR2, gapPanel;
         JButton 	rentalRQ, surfLogout;
+        JScrollPane scroll;
         
         
         
@@ -109,6 +110,11 @@ public class Admin_List extends JFrame {
         }
 
 
+        scroll = new JScrollPane(scrollPanel);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        scroll.setBorder(null); 
         
         
        
@@ -143,7 +149,7 @@ public class Admin_List extends JFrame {
         //Overall Window
         setLayout	(new BorderLayout()); 
         add			(top, BorderLayout.NORTH); //Adds header to the frame
-        add			(scrollPanel, BorderLayout.CENTER); // Adds scrollable panel container to the frame
+        add         (scroll, BorderLayout.CENTER); // Adds scrollable panel container to the frame
 
 
         //Component Colors

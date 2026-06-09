@@ -26,19 +26,12 @@ import java.awt.event.*;
 
 public class Rental_List extends JFrame {
     private String currentAcc;
-    private JPanel scrollPanel;   // ← promoted from local
+    private JPanel scrollPanel;  
     private int gapHeight;
     private int rentCount = 0;
 
 
-    public void addRentCus(String name, String due, double cost) {
-        rentCount++;   
-        panels p = new panels();
-        scrollPanel.add(Box.createVerticalStrut(gapHeight));
-        scrollPanel.add(p.addRentCus("Surfboard " + rentCount, due, cost));
-        scrollPanel.revalidate();
-        scrollPanel.repaint();
-    }
+    
 
     Rental_List(String acc){
         this.currentAcc = acc;
@@ -101,19 +94,23 @@ public class Rental_List extends JFrame {
         
         // Box Layout cuz idk how I would've figured that out in Gridlayout
         scrollPanel.setLayout	(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS)); 
-        panels p1 = new panels();
         for (Rent_Data.RentalEntry entry : Rent_Data.rentals) {
-            scrollPanel.add(p.addRentCus(entry.boardName, entry.due, entry.cost));
+            scrollPanel.add(p.addRentCus(entry.boardName, entry.due, entry.cost, this, entry));
             scrollPanel.add(Box.createVerticalStrut(gapHeight));
         }
         
+        scroll = new JScrollPane(scrollPanel);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        scroll.setBorder(null); 
+        add(scroll, BorderLayout.CENTER);
 
 
         
         
         // Initialize scroll container with your panel nestled inside
-        scroll = new JScrollPane(scrollPanel);
-
+      
         
 
         //---------------------------------------------------------------------
@@ -142,7 +139,7 @@ public class Rental_List extends JFrame {
         //Overall Window
         setLayout	(new BorderLayout()); 
         add			(top, BorderLayout.NORTH); //Adds header to the frame
-        add			(scrollPanel, BorderLayout.CENTER); // Adds scrollable panel container to the frame
+        add         (scroll, BorderLayout.CENTER); // Adds scrollable panel container to the frame
 
 
         //Component Colors
