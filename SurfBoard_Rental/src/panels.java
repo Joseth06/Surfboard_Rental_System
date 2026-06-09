@@ -5,12 +5,17 @@ import java.awt.event.*;
 public class panels{
     private int itemWidth = 330;
     private int itemHeight = 90;
+    private int gapHeight = (int) (itemHeight * 0.20); 
     private Dimension itemSize = new Dimension(itemWidth, itemHeight);
+    
 
-    private JPanel EQPStatus, topRow, midRow, botRow, totalRows;
+
+    private JPanel EQPStatus, topRow, midRow, botRow, totalRows, scrollPanel;
     private JButton remove, view;
     private JLabel nameBoard, status, displayDue;
     private JTextField rent, costOutput;
+    
+    
    
 
     
@@ -47,7 +52,7 @@ public class panels{
         return EQPStatus;
     }
 
-    public Component AdminRentList(String name, String stat, String Due, double cost, JFrame parentFrame){
+    public Component AdminRentList(String name, String stat, String Due, double cost, JFrame parentFrame, Rent_Data.RentalEntry entry){
         nameBoard  = new JLabel(name);
         status = new JLabel(stat);
         displayDue = new JLabel("Due Rent");
@@ -62,11 +67,19 @@ public class panels{
             if (parentFrame != null) {
                 parentFrame.dispose(); // Closes the actual active screen
             }
-            new Rental_Request("Admin");
+            new Rental_Request("Admin", entry);
+            
         });
 
+
         remove.addActionListener(e -> {
-            // None yet
+            Rent_Data.rentals.remove(entry);  
+            parentFrame.dispose();
+            new Admin_List("Admin");
+        
+            
+            
+
         });
 
         EQPStatus = new JPanel(new BorderLayout());

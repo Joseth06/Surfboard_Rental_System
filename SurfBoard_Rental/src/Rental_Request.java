@@ -22,6 +22,12 @@ import java.time.Period;
 
 public class Rental_Request extends JFrame{
     private String currentAcc;
+    private Rent_Data.RentalEntry editEntry = null;
+
+    private JTextField			RQName, RQNum, boardInput, dateInput,
+                            dayInput, hourInput, minuteInput, durationInput,
+                            costOutput, dueOutput;
+    private JComboBox<String> 	packBox, packPeriod;
 
 
 	Rental_Request(String role) {
@@ -43,10 +49,7 @@ public class Rental_Request extends JFrame{
                             BotformPanel, BotformPanel2,
                             topPanel, buttonPanel; // Container to align buttons side-by-side
         JButton				btnSubmit, btnCancel;
-        JTextField			RQName, RQNum, boardInput, dateInput,
-                            dayInput, hourInput, minuteInput, durationInput,
-                            costOutput, dueOutput;
-        JComboBox<String> 	packBox, packPeriod;
+        
         
         // JLabels, JButtons, JComboBox, and JTextFields
 
@@ -244,6 +247,12 @@ public class Rental_Request extends JFrame{
                 int day = 600;
                 int hour = 200;
                 int packInstructor = 1500;
+
+                int hour_choice = 0;
+                int min_choice = 0;
+                int day_choice = 0;
+                int Surfboard_Num = 0;
+                int duration_choice = 0;
                 
                 String surfboardName = "Surfboard";
                 String name = RQName.getText();
@@ -253,11 +262,11 @@ public class Rental_Request extends JFrame{
                 String date_choice = dateInput.getText();
 
                 try {
-                    int hour_choice     = Integer.parseInt(hourInput.getText().trim());
-                    int min_choice      = Integer.parseInt(minuteInput.getText().trim());
-                    int day_choice      = Integer.parseInt(dayInput.getText().trim());
-                    int Surfboard_Num   = Integer.parseInt(boardInput.getText().trim());
-                    int duration_choice = Integer.parseInt(durationInput.getText().trim());
+                    hour_choice     = Integer.parseInt(hourInput.getText().trim());
+                    min_choice      = Integer.parseInt(minuteInput.getText().trim());
+                    day_choice      = Integer.parseInt(dayInput.getText().trim());
+                    Surfboard_Num   = Integer.parseInt(boardInput.getText().trim());
+                    duration_choice = Integer.parseInt(durationInput.getText().trim());
 
                     if (pack_choice.equals("With Instructor")) {
                         total_cost = packInstructor * Surfboard_Num;
@@ -280,8 +289,28 @@ public class Rental_Request extends JFrame{
                     }   
                 
 
+                if (editEntry != null) {
+                    editEntry.custName  = name;
+                    editEntry.phone     = Contact_Num;
+                    editEntry.boardNum  = Surfboard_Num;
+                    editEntry.pack      = pack_choice;
+                    editEntry.date      = date_choice;
+                    editEntry.hour      = hour_choice;
+                    editEntry.min       = min_choice;
+                    editEntry.period    = period_choice;
+                    editEntry.duration  = duration_choice;
+                    editEntry.days      = day_choice;
+                    editEntry.cost      = total_cost;
+                    editEntry.due       = dueOutput.getText();
+                    editEntry.status    = "In use";
+                    } else {
+                    Rent_Data.saveRental(name, Contact_Num, Surfboard_Num, pack_choice,
+                                        date_choice, hour_choice, min_choice, period_choice,
+                                        duration_choice, day_choice, total_cost, dueOutput.getText());
+                }
+
                 dispose();
-                Rent_Data.addRental(dueOutput.getText(), total_cost, "In use");
+                
                 if ("Admin".equalsIgnoreCase(role)) {
                     new Admin_List(role);
                 } else {
@@ -330,6 +359,28 @@ public class Rental_Request extends JFrame{
         setLocationRelativeTo			(null);
         setVisible						(true);
     }
+
+    Rental_Request(String role, Rent_Data.RentalEntry entry) {
+    this(role); 
+
+    if (entry != null) {
+        editEntry = entry;
+        RQName.setText(entry.custName);
+        RQNum.setText(entry.phone);
+        boardInput.setText(String.valueOf(entry.boardNum));
+        dateInput.setText(entry.date);
+        hourInput.setText(String.format("%02d", entry.hour));
+        minuteInput.setText(String.format("%02d", entry.min));
+        durationInput.setText(String.valueOf(entry.duration));
+        dayInput.setText(String.valueOf(entry.days));
+        costOutput.setText(String.format("₱ %.2f", entry.cost));
+        dueOutput.setText(entry.due);
+        packBox.setSelectedItem(entry.pack);
+        packPeriod.setSelectedItem(entry.period);
+    }
+}
+
+    
 
 
     

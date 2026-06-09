@@ -30,11 +30,11 @@ public class Admin_List extends JFrame {
     private int gapHeight;
     private int rentCount = 1;
 
-    public void addAdminRent(String name, String stat, String due, double cost) {
+    public void addAdminRent(String name, String stat, String due, double cost, Rent_Data.RentalEntry entry) {
         rentCount++;
         panels p = new panels();
         scrollPanel.add(Box.createVerticalStrut(gapHeight));
-        scrollPanel.add(p.AdminRentList("Surfboard " + rentCount, stat, due, cost, this));
+        scrollPanel.add(p.AdminRentList("Surfboard " + rentCount, stat, due, cost, this, entry));
         scrollPanel.revalidate();
         scrollPanel.repaint();
     }
@@ -45,8 +45,7 @@ public class Admin_List extends JFrame {
     	
         JLabel 		SurfListTitle;
         JPanel 		top, statusCTR1, 
-                    statusCTR2, gapPanel, 
-                    scrollPanel;
+                    statusCTR2, gapPanel;
         JButton 	rentalRQ, surfLogout;
         
         
@@ -81,7 +80,7 @@ public class Admin_List extends JFrame {
         // Dimension constants
         int itemWidth = 330;
         int itemHeight = 120;
-        int gapHeight = (int) (itemHeight * 0.20); 
+        gapHeight = (int) (itemHeight * 0.20); 
         Dimension itemSize = new Dimension(itemWidth, itemHeight);
 
         //Status Panels
@@ -105,9 +104,11 @@ public class Admin_List extends JFrame {
         scrollPanel.setLayout	(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS)); 
         panels p = new panels();
         for (Rent_Data.RentalEntry entry : Rent_Data.rentals) {
-        scrollPanel.add(p.AdminRentList(entry.boardName, entry.status, entry.due, entry.cost, this));
+        scrollPanel.add(p.AdminRentList(entry.boardName, entry.status, entry.due, entry.cost, this, entry));
         scrollPanel.add(Box.createVerticalStrut(gapHeight));
         }
+
+
         
         
        
@@ -136,6 +137,8 @@ public class Admin_List extends JFrame {
                 dispose();
             }
         });
+
+
 
         //Overall Window
         setLayout	(new BorderLayout()); 
