@@ -86,7 +86,13 @@ public class SurfBoard extends JFrame {
         btnSignIn.setForeground(new Color(0xFFFFFF));
 
          // Login Panel
-        loginPanel  = new JPanel();
+        loginPanel  = new JPanel(){
+            @Override
+            public void paintComponent(Graphics g){
+                g.setColor(new Color(0x1D3557));   
+                g.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+            }
+        };
         loginPanel.setPreferredSize     (new Dimension(265, 285));
         loginPanel.setBackground        (new Color(0x00B4D8));   // ← Login panel background
         loginPanel.setLayout        (new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
@@ -165,7 +171,7 @@ public class SurfBoard extends JFrame {
         loginPanel.setBackground    (new Color(0x1D3557));
 
         //Content Pane
-        BackgroundPanel bgPanel = new BackgroundPanel("Surfboard_Rental_System/SurfBoard_Rental/src/waves.jpg"); 
+        BackgroundPanel bgPanel = new BackgroundPanel("Login.png"); 
         bgPanel.setLayout(new GridBagLayout());
         setContentPane(bgPanel);
 
