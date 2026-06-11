@@ -165,9 +165,10 @@ public class SurfBoard extends JFrame {
         loginPanel.setBackground    (new Color(0x1D3557));
 
         //Content Pane
-        BackgroundPanel bgPanel = new BackgroundPanel("Surfboard_Rental_System/SurfBoard_Rental/src/waves.jpg"); 
+        BackgroundPanel bgPanel = new BackgroundPanel("login.png"); 
         bgPanel.setLayout(new GridBagLayout());
         setContentPane(bgPanel);
+
 
         // Top Header [Row 0]
         GBConstraints.gridy     = 0;
@@ -196,7 +197,7 @@ public class SurfBoard extends JFrame {
     private Image image;
     
     BackgroundPanel(String imagePath) {
-        image = new ImageIcon(imagePath).getImage();
+        image = new ImageIcon(getClass().getResource("/" + imagePath)).getImage();
     }
     
     @Override

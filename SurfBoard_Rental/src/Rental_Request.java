@@ -34,6 +34,9 @@ public class Rental_Request extends JFrame{
 
 	Rental_Request(String role) {
         this.currentAcc = role;
+        BackgroundPanel bgPanel = new BackgroundPanel("req_form.jpg");
+        bgPanel.setLayout(new GridBagLayout());
+        setContentPane(bgPanel);
         
 
 
@@ -57,6 +60,7 @@ public class Rental_Request extends JFrame{
 
         RequestTitle 	= new JLabel("Surfboard Rental Form", SwingConstants.CENTER);
         RequestTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        RequestTitle.setForeground(new Color(0x1a3052));
         
         topLabel		= new JLabel("Rent a Board", SwingConstants.CENTER);
         RQNameDisplay	= new JLabel("Name");
@@ -92,7 +96,7 @@ public class Rental_Request extends JFrame{
         btnCancel 		= new JButton("Cancel");
 
 
-        getContentPane().setBackground		(new Color(0xF5F0EB));
+        getContentPane().setBackground		(new Color(0,0,0,0));
 
         costOutput.setEditable(false);
         costOutput.setForeground(new Color(0x000000));
@@ -110,6 +114,7 @@ public class Rental_Request extends JFrame{
         topPanel.setLayout            (new BorderLayout());
         topPanel.setBorder            (BorderFactory.createEmptyBorder(10, 0, 10, 10));
         topPanel.add                (RequestTitle);
+        topPanel.setBackground(new Color(0x1a, 0x30, 0x52, 180)); // semi-transparent blue box
         topPanel.setOpaque            (false); 
         
         // Form Header Text
@@ -140,6 +145,7 @@ public class Rental_Request extends JFrame{
         formPanel.setBackground            (new Color(0x1a3052));
         formPanel.setBorder                (BorderFactory.createEmptyBorder(15, 20, 5, 20)); 
         formPanel.setLayout                (new BoxLayout(formPanel, BoxLayout.Y_AXIS));;
+        formPanel.setOpaque(true);
 
         // Top Request Form Panel
         TopformPanel = new JPanel();
@@ -374,27 +380,27 @@ public class Rental_Request extends JFrame{
         GBConstraints.gridy		= 0;                        
         GBConstraints.weighty	= 0.6;                    
         GBConstraints.anchor	= GridBagConstraints.SOUTH;
-        add				(topPanel, GBConstraints);
+        bgPanel.add(topPanel, GBConstraints);
 
         // Request Form Panel [Row 1]
         GBConstraints.gridy		= 1;                        
         GBConstraints.weighty	= 1;                    
         GBConstraints.anchor	= GridBagConstraints.NORTH;
-        add				(formPanel, GBConstraints);
+        bgPanel.add(formPanel, GBConstraints);
         
         //Color Components
-        RQNameDisplay.setForeground		(new Color(0xad9a6f));
-        RQNumDisplay.setForeground		(new Color(0xad9a6f));
-        boardDisplay.setForeground		(new Color(0xad9a6f));
-        packageDisplay.setForeground	(new Color(0xad9a6f));
-        dateDisplay.setForeground		(new Color(0xad9a6f));
-        hourDisplay.setForeground		(new Color(0xad9a6f));
-        minuteDisplay.setForeground		(new Color(0xad9a6f));
-        periodDisplay.setForeground		(new Color(0xad9a6f));
-        dayDisplay.setForeground		(new Color(0xad9a6f));
-        durationDisplay.setForeground	(new Color(0xad9a6f));
-        costDisplay.setForeground		(new Color(0xad9a6f));
-        dueDisplay.setForeground		(new Color(0xad9a6f));
+        RQNameDisplay.setForeground		(new Color(0x1a3052));
+        RQNumDisplay.setForeground		(new Color(0x1a3052));
+        boardDisplay.setForeground		(new Color(0x1a3052));
+        packageDisplay.setForeground	(new Color(0x1a3052));
+        dateDisplay.setForeground		(new Color(0x1a3052));
+        hourDisplay.setForeground		(new Color(0x1a3052));
+        minuteDisplay.setForeground		(new Color(0x1a3052));
+        periodDisplay.setForeground		(new Color(0x1a3052));
+        dayDisplay.setForeground		(new Color(0x1a3052));
+        durationDisplay.setForeground	(new Color(0x1a3052));
+        costDisplay.setForeground		(new Color(0x1a3052));
+        dueDisplay.setForeground		(new Color(0x1a3052));
 
         setSize							(517, 585);
         setDefaultCloseOperation		(DISPOSE_ON_CLOSE);
@@ -435,7 +441,20 @@ public class Rental_Request extends JFrame{
             }
         }
 
-    }   
+    }  
+    class BackgroundPanel extends JPanel {
+    private Image image;
+
+    BackgroundPanel(String imagePath) {
+        image = new ImageIcon(getClass().getResource("/" + imagePath)).getImage();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+} 
 
     
 

@@ -41,6 +41,9 @@ public class Admin_List extends JFrame {
     
     Admin_List(String acc){
         this.currentAcc = acc;
+        BackgroundPanel bgPanel = new BackgroundPanel("list.jpg");
+        bgPanel.setLayout(new BorderLayout());
+        setContentPane(bgPanel);
         //------------ UI Component Declarations & Initializations ------------
     	
         JLabel 		SurfListTitle;
@@ -115,6 +118,9 @@ public class Admin_List extends JFrame {
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         scroll.setBorder(null); 
+        scrollPanel.setOpaque(false);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
         
         
        
@@ -165,4 +171,17 @@ public class Admin_List extends JFrame {
         setLocationRelativeTo		(null);
 
     }
+    class BackgroundPanel extends JPanel {
+    private Image image;
+
+    BackgroundPanel(String imagePath) {
+        image = new ImageIcon(getClass().getResource("/" + imagePath)).getImage();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+}
 }

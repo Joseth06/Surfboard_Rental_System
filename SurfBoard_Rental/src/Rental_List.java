@@ -35,6 +35,7 @@ public class Rental_List extends JFrame {
 
     Rental_List(String acc){
         this.currentAcc = acc;
+        setContentPane(new BackgroundPanel("list.jpg"));
     
     
         
@@ -115,7 +116,10 @@ public class Rental_List extends JFrame {
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         scroll.setBorder(null);
-        scroll.getViewport().setBackground(new Color(0xD6E4F0)); // ← viewport background
+        scroll.getViewport().setBackground(new Color(0xD6E4F0));
+        scrollPanel.setOpaque(false);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false); // ← viewport background
         add(scroll, BorderLayout.CENTER); 
 
 
@@ -165,5 +169,17 @@ public class Rental_List extends JFrame {
         setLocationRelativeTo		(null);
 
     }
-    
+    class BackgroundPanel extends JPanel {
+    private Image image;
+
+    BackgroundPanel(String imagePath) {
+        image = new ImageIcon(getClass().getResource("/" + imagePath)).getImage();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+}
 }
