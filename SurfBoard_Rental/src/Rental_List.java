@@ -28,21 +28,22 @@ public class Rental_List extends JFrame {
     private String currentAcc;
     private JPanel scrollPanel;  
     private int gapHeight;
-    private int rentCount = 0;
 
 
     
 
     Rental_List(String acc){
         this.currentAcc = acc;
+
+        // Loades Backgroud Image
+        setContentPane(new BackgroundPanel("list.jpg"));
     
     
         
         //------------ UI Component Declarations & Initializations ------------
     	
         JLabel 		SurfListTitle;
-        JPanel 		top, statusCTR1, 
-                    statusCTR2, gapPanel;
+        JPanel 		top;
         JButton 	rentalRQ, surfLogout;
         JScrollPane scroll;
 
@@ -75,9 +76,7 @@ public class Rental_List extends JFrame {
         rentalRQ.setBackground(new Color(0x2E86C1));
         rentalRQ.setForeground(new Color(0xFFFFFF));
         
-        JPanel titleOverlay = new JPanel(new BorderLayout());
-        titleOverlay.setOpaque(false);
-        titleOverlay.add(SurfListTitle, BorderLayout.CENTER);
+        
 
         top.add         (surfLogout, BorderLayout.WEST);
         top.add         (SurfListTitle, BorderLayout.CENTER);
@@ -92,11 +91,6 @@ public class Rental_List extends JFrame {
         //Status Panel 
         panels p = new panels();
 
-        //Status Panel for Spacing between Equipments
-        gapPanel    = new JPanel();
-        gapPanel.setLayout          (new GridLayout());
-        gapPanel.setPreferredSize   (new Dimension(330,90));
-        gapPanel.setBorder          (BorderFactory.createEmptyBorder(10, 20, 10, 20));
         
         // Container for Panels
         scrollPanel = new JPanel();
@@ -105,18 +99,24 @@ public class Rental_List extends JFrame {
         
         // Box Layout cuz idk how I would've figured that out in Gridlayout
         scrollPanel.setLayout   (new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
+
+        // Loads and displays all existing rentals in customers perspective
         for (Rent_Data.RentalEntry entry : Rent_Data.rentals) {
             scrollPanel.add(p.addRentCus(entry.boardName, entry.due, entry.cost, this, entry));
             scrollPanel.add(Box.createVerticalStrut(gapHeight));
         }
         
+
+        // Scroll Panel
         scroll = new JScrollPane(scrollPanel);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         scroll.setBorder(null);
-        scroll.getViewport().setBackground(new Color(0xD6E4F0)); // ← viewport background
-        add(scroll, BorderLayout.CENTER); 
+        scroll.getViewport().setBackground(new Color(0xD6E4F0));
+        scrollPanel.setOpaque(false);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false); // ← viewport background
 
 
         
@@ -148,10 +148,12 @@ public class Rental_List extends JFrame {
                 dispose();
             }
         });
+
         //Overall Window
         setLayout	(new BorderLayout()); 
         add			(top, BorderLayout.NORTH); //Adds header to the frame
         add         (scroll, BorderLayout.CENTER); // Adds scrollable panel container to the frame
+
 
 
         //Component Colors
@@ -163,7 +165,22 @@ public class Rental_List extends JFrame {
         setVisible					(true);
         setDefaultCloseOperation	(EXIT_ON_CLOSE);
         setLocationRelativeTo		(null);
+        setResizable                (false);
 
     }
-    
+
+    //Background Image
+    class BackgroundPanel extends JPanel {
+    private Image image;
+
+    BackgroundPanel(String imagePath) {
+        image = new ImageIcon(getClass().getResource("/" + imagePath)).getImage();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+}
 }

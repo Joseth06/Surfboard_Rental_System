@@ -105,13 +105,8 @@ public class SurfBoard extends JFrame {
         loginPanel.add          (Box.createVerticalStrut(20));
         loginPanel.add          (btnSignIn);
         loginPanel.add          (Box.createVerticalStrut(40));
-        //---------------------------------------------------------------------
-        
-        
-        //------------------- Finalized Interface & Styling -------------------
-        
-        
-        // Events
+
+        // Events (Accounts)
         btnSignIn.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -132,6 +127,12 @@ public class SurfBoard extends JFrame {
         }
             }
         });
+
+        //---------------------------------------------------------------------
+        
+        
+        //------------------- Finalized Interface & Styling -------------------
+        
         
         // Make Header bg transparent
         top.setOpaque(false); 
@@ -171,9 +172,10 @@ public class SurfBoard extends JFrame {
         loginPanel.setBackground    (new Color(0x1D3557));
 
         //Content Pane
-        BackgroundPanel bgPanel = new BackgroundPanel("Login.png"); 
+        BackgroundPanel bgPanel = new BackgroundPanel("login.png"); 
         bgPanel.setLayout(new GridBagLayout());
         setContentPane(bgPanel);
+
 
         // Top Header [Row 0]
         GBConstraints.gridy     = 0;
@@ -191,23 +193,26 @@ public class SurfBoard extends JFrame {
         setDefaultCloseOperation	(EXIT_ON_CLOSE);
         setLocationRelativeTo		(null);
         setVisible					(true);
+        setResizable                (false);
     }
 
+    // The Screen 
     public static void main(String[] args) {
         Rent_Data.loadFromFile();
         new SurfBoard();
     }
 
+    //Background Image
     class BackgroundPanel extends JPanel {
     private Image image;
     
     BackgroundPanel(String imagePath) {
-        image = new ImageIcon(imagePath).getImage();
+        image = new ImageIcon(getClass().getResource("/" + imagePath)).getImage();
     }
     
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        super.paintComponent(g); 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
 }

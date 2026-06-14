@@ -1,6 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 
+
+
 public class panels{
     private int itemWidth = 330;
     private int itemHeight = 120;
@@ -9,10 +11,11 @@ public class panels{
     
 
 
-    private JPanel EQPStatus, topRow, midRow, botRow, totalRows, scrollPanel;
+    private JPanel EQPStatus, topRow, midRow, botRow, totalRows;
     private JButton remove, viewAdmin, viewCus;
-    private JLabel nameBoard, status, displayDue;
+    private JLabel nameBoard, AdminReminder, CusReminder, displayDue;
     private JTextField rent, costOutput;
+    
     
     
     
@@ -23,9 +26,13 @@ public class panels{
     public panels(){
         
     }
-     // Customer List
+     // Customer List 
+     // Where each customers rent will be displayed
     public Component addRentCus(String name, String Due, double cost, JFrame parentFrame, Rent_Data.RentalEntry entry){
+        String CusStatus = Rent_Data.getStatus(Due);
+
         viewCus = new JButton("View");
+        CusReminder = new JLabel(CusStatus);
         nameBoard  = new JLabel(name);
         costOutput = new JTextField(String.format("₱ %.2f", cost));
         displayDue = new JLabel("Due Rent");
@@ -44,7 +51,7 @@ public class panels{
         EQPStatus.add(costOutput);
         EQPStatus.add(displayDue);
         EQPStatus.add(rent);
-        EQPStatus.add(new JLabel());
+        EQPStatus.add(CusReminder);
         EQPStatus.add(viewCus);
 
         //Events 
@@ -54,18 +61,35 @@ public class panels{
             }
             new Rental_Request("User", entry);
         });
+
         //Colors
         nameBoard.setForeground (new Color(0xF5F0EB));
         displayDue.setForeground(new Color(0xF5F0EB));
         EQPStatus.setBackground(new Color(0x1a3052)); 
 
+        if (CusStatus.startsWith("Overdue")) {
+            CusReminder.setForeground(new Color(0xFF5722)); // red - overdue
+        } else if (CusStatus.equals("Due now!")) {
+            CusReminder.setForeground(new Color(0xFF0000)); // bright red - due now
+        } else if (CusStatus.startsWith("Due in") && CusStatus.contains("minute")) {
+            CusReminder.setForeground(new Color(0xFFC107)); // yellow - minutes left
+        } else if (CusStatus.startsWith("Due in") && CusStatus.contains("hour")) {
+            CusReminder.setForeground(new Color(0xFF9800)); // orange - hours left
+        } else {
+            CusReminder.setForeground(new Color(0x4CAF50)); // green - days away
+        }
+
         return EQPStatus;
     }
 
     // Admin List
-    public Component AdminRentList(String name, String stat, String Due, double cost, JFrame parentFrame, Rent_Data.RentalEntry entry){
+    // Each customers rent will be displayed but with additional functionality (View (Edit) and Remove)
+    public Component AdminRentList(String name, String Due, double cost, JFrame parentFrame, Rent_Data.RentalEntry entry){
+        String AdminStatus = Rent_Data.getStatus(Due);
+        
+
         nameBoard  = new JLabel(name);
-        status = new JLabel(stat);
+        AdminReminder = new JLabel(AdminStatus);
         displayDue = new JLabel("Due Rent");
         rent = new JTextField(Due);
 
@@ -73,6 +97,7 @@ public class panels{
         remove = new JButton("Remove");
 
         rent.setEditable(false);
+
 
         viewAdmin.addActionListener(e -> {
             if (parentFrame != null) {
@@ -105,7 +130,7 @@ public class panels{
         // Middle row: state and remove button
         midRow = new JPanel(new BorderLayout());
         midRow.setOpaque(false);
-        midRow.add(status, BorderLayout.WEST);
+        midRow.add(AdminReminder, BorderLayout.WEST);
         midRow.add(remove, BorderLayout.EAST);
 
         // Bottom row: Due Rent 
@@ -122,15 +147,27 @@ public class panels{
         totalRows.add(botRow);
         EQPStatus.add(totalRows, BorderLayout.CENTER);
 
-        //Colors
+        //Colors and Fonts
         nameBoard.setFont(new Font("Segoe UI", Font.BOLD, 14));
         nameBoard.setForeground(new Color(0xE8F4FD));
 
         displayDue.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         displayDue.setForeground(new Color(0xE8F4FD));
 
-        status.setForeground(new Color(0xE8F4FD));
+        AdminReminder.setForeground(new Color(0xE8F4FD));
         EQPStatus.setBackground(new Color(0x1a3052));
+
+        if (AdminStatus.startsWith("Overdue")) {
+            AdminReminder.setForeground(new Color(0xFF5722)); // red - overdue
+        } else if (AdminStatus.equals("Due now!")) {
+            AdminReminder.setForeground(new Color(0xFF0000)); // bright red - due now
+        } else if (AdminStatus.startsWith("Due in") && AdminStatus.contains("minute")) {
+            AdminReminder.setForeground(new Color(0xFFC107)); // yellow - minutes left
+        } else if (AdminStatus.startsWith("Due in") && AdminStatus.contains("hour")) {
+            AdminReminder.setForeground(new Color(0xFF9800)); // orange - hours left
+        } else {
+            AdminReminder.setForeground(new Color(0x4CAF50)); // green - days away
+        }
 
         return EQPStatus;
 
