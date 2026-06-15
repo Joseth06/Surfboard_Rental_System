@@ -19,7 +19,7 @@ import java.time.LocalDate;
 * Modifications
 * Fixed topLabel font override bug affecting form panel title sizing
 * Linked btnSubmit window disposal to route back to Rental_List
-* Added btnCancel next to btnSubmit using a horizontal buttonPanel wrapper container
+* Added btnCancel next to btnSubmit using a horizontal buttonPanel wrapper container sd
 */
 
 public class Rental_Request extends JFrame{
@@ -31,6 +31,7 @@ public class Rental_Request extends JFrame{
     private JComboBox<String> 	packBox, packPeriod;
     private JLabel costOutput, dueOutput;
     private JButton btnSubmit;
+    private boolean isLoading = false;
 
     
 	Rental_Request(String role) {
@@ -233,6 +234,7 @@ public class Rental_Request extends JFrame{
 
         //Updates the costOutput and dueOutput during the ReqForm
         Runnable updateLabels = () -> {
+            if (isLoading) return;
             try {
                 String pack_choice  = packBox.getSelectedItem().toString();
                 String period       = packPeriod.getSelectedItem().toString();
@@ -489,6 +491,8 @@ public class Rental_Request extends JFrame{
     // Loads the reqform if have information already (Admin can edit and User can only view)
     if (entry != null) {
         editEntry = entry;
+        isLoading = true;
+
         RQName.setText(entry.custName);
         RQNum.setText(entry.phone);
         boardInput.setText(String.valueOf(entry.boardNum));
@@ -497,10 +501,12 @@ public class Rental_Request extends JFrame{
         minuteInput.setText(String.format("%02d", entry.min));
         durationInput.setText(String.valueOf(entry.duration));
         dayInput.setText(String.valueOf(entry.days));
-        costOutput.setText(String.format("₱ %.2f", entry.cost));
-        dueOutput.setText(entry.due);
         packBox.setSelectedItem(entry.pack);
         packPeriod.setSelectedItem(entry.period);
+
+        isLoading = false;
+        costOutput.setText(String.format("₱ %.2f", entry.cost));
+        dueOutput.setText(entry.due);
 
         if ("User".equalsIgnoreCase(role)) {
             RQName.setEditable(false);
