@@ -2,27 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
- /* 
- * Navigation Guide
- * 	> UI Component Declarations & Initializations
- * 	> Panel Layouts & Containers
- * 	> Finalized Interface & Styling
- * 
- * Change Log (05-31-2026, 04:02:39 PM)
- * Additions
- * 1) Added tab spacing for readability
- * 2) Added a scroll panel container to hold new panels for each equipment (Line 87-92)
- * 3) Added gap panel feature using boxlayout, intended for spacing between equipment panels
- * 
- * 
- * Modifications
- * SurfList		--> SurfListTitle
- * nameOfboard 	--> EQPName
- * stats 		--> EQPState
- * status		--> EQPStatus
- * statusCenter --> statusCTR
- * add 			--> rentalRQ
-*/
 
 public class Rental_List extends JFrame {
     private String currentAcc;
@@ -53,11 +32,11 @@ public class Rental_List extends JFrame {
         SurfListTitle 	= new JLabel("Surf Boards List", SwingConstants.CENTER);
         SurfListTitle.setFont(new Font("Arial", Font.BOLD, 20));
         
-        //JButton to Rental Request Form
+        //JButton to Rental Request Form and login page
         rentalRQ 	= new JButton("+");
         surfLogout = new JButton("Surf out");
 
-        //Scroll Feature, deal with later on.
+        // JScroll
         scroll 		= new JScrollPane();
 
 
@@ -117,12 +96,6 @@ public class Rental_List extends JFrame {
         scrollPanel.setOpaque(false);
         scroll.setOpaque(false);
         scroll.getViewport().setOpaque(false); // ← viewport background
-
-
-        
-        
-        // Initialize scroll container with your panel nestled inside
-      
         
 
         //---------------------------------------------------------------------

@@ -5,22 +5,6 @@ import javax.swing.*;
 import java.time.LocalDate;
 
 
-/* 
-* Navigation Guide
-* 	> UI Component Declarations & Initializations
-* 	> Panel Layouts & Containers
-* 	> Finalized Interface & Styling
-* 
-* Change Log (06-01-2026, 01:30:00 PM)
-* Additions
-* 1) Created Surf Board Request Form
-* 2) Integrated JComboBox for dropdown selection (surfboards, time slots, etc)
-* 
-* Modifications
-* Fixed topLabel font override bug affecting form panel title sizing
-* Linked btnSubmit window disposal to route back to Rental_List
-* Added btnCancel next to btnSubmit using a horizontal buttonPanel wrapper container sd
-*/
 
 public class Rental_Request extends JFrame{
     private String currentAcc;
@@ -195,25 +179,11 @@ public class Rental_Request extends JFrame{
         
         
         // Events
-        // Cancel Event Logic
-        btnCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                if("Admin".equalsIgnoreCase(role)){
-                    new Admin_List("Admin"); 
-                } else {
-                    new Rental_List("User");
-                }
-        
-            }
-        });
-
         // With Instructor Package 
         packBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            if (isLoading) return;  // ← add this line
+            if (isLoading) return;  
             
             String pack_choice = packBox.getSelectedItem().toString();
 
@@ -451,6 +421,19 @@ public class Rental_Request extends JFrame{
             }
         });
         
+        // Cancel Event Logic
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                if("Admin".equalsIgnoreCase(role)){
+                    new Admin_List("Admin"); 
+                } else {
+                    new Rental_List("User");
+                }
+        
+            }
+        });
         
         //Overall Window
         setLayout(new GridBagLayout());

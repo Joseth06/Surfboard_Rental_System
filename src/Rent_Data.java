@@ -40,11 +40,6 @@ public class Rent_Data {
         
     LocalDateTime due = null;
         
-        try {
-            due = LocalDateTime.parse(dateWithTime.trim(), dtFormatter);
-        } catch (DateTimeParseException ex) {
-            return "In use"; // can't parse, give up
-        }
 
         LocalDateTime now = LocalDateTime.now();
         long minutesLeft  = ChronoUnit.MINUTES.between(now, due);

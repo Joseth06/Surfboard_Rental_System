@@ -1,2 +1,0 @@
-Surfboard Rent 1,In use,06/17/2026 10:00 AM,600.0,jostht,09075525821,1,No Instructor,06/17/2026,10,0,AM,3,0
-Surfboard Rent 2,In use,06/17/2026 10:00 AM,1500.0,Josethk,09075525821,1,With Instructor,06/17/2026,10,0,AM,2,0

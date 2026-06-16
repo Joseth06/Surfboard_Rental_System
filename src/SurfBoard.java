@@ -2,25 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/* 
-* Navigation Guide
-* 	> UI Component Declarations & Initializations
-* 	> Panel Layouts & Containers
-* 	> Finalized Interface & Styling
-* 
-* Change Log (06-01-2026, 10:32:26 AM)
-* Additions
-* 1) Added tab spacing for readability
-* 2) Added background text "password" visibility 
-* 3) Utilized Grid Bag Constraints for mapping out panels.
-* 
-* Modifications
-* MainPanel 	--> loginPanel
-* 
-* 
-* Change Log (06-01-2026, 01:58:26 PM)
-* 1) Transfered code from Login_Page.java
-*/
 
 public class SurfBoard extends JFrame {
     SurfBoard() {
