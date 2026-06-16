@@ -510,7 +510,7 @@ public class Rental_Request extends JFrame{
         dateInput.setText(entry.date);
         hourInput.setText(String.format("%02d", entry.hour));
         minuteInput.setText(String.format("%02d", entry.min));
-        
+
         packBox.setSelectedItem(entry.pack);
         packPeriod.setSelectedItem(entry.period);
 
@@ -520,6 +520,13 @@ public class Rental_Request extends JFrame{
         isLoading = false;
         costOutput.setText(String.format("₱ %.2f", entry.cost));
         dueOutput.setText(entry.due);
+        
+        if (packBox.getSelectedItem().equals("With Instructor")){
+                durationInput.setText("02");
+                dayInput.setText("00");
+                durationInput.setEditable(false);
+                dayInput.setEditable(false);
+            } 
 
         if ("User".equalsIgnoreCase(role)) {
             RQName.setEditable(false);
