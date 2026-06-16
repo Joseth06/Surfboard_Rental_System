@@ -37,25 +37,26 @@ public class Rent_Data {
         }
 
     public static String getStatus(String dateWithTime) {
-        
-    LocalDateTime due = null;
-        
+        try {
+            LocalDateTime due = LocalDateTime.parse(dateWithTime, dtFormatter);
+            LocalDateTime now = LocalDateTime.now();
+            long minutesLeft  = ChronoUnit.MINUTES.between(now, due);
+            long hoursLeft    = ChronoUnit.HOURS.between(now, due);
+            long daysLeft     = ChronoUnit.DAYS.between(now, due);
 
-        LocalDateTime now = LocalDateTime.now();
-        long minutesLeft  = ChronoUnit.MINUTES.between(now, due);
-        long hoursLeft    = ChronoUnit.HOURS.between(now, due);
-        long daysLeft     = ChronoUnit.DAYS.between(now, due);
-
-        if (minutesLeft < 0) {
-            if (Math.abs(daysLeft) >= 1)   return "Overdue by " + Math.abs(daysLeft) + " day(s)";
-            else if (Math.abs(hoursLeft) >= 1) return "Overdue by " + Math.abs(hoursLeft) + " hour(s)";
-            else                           return "Overdue by " + Math.abs(minutesLeft) + " minute(s)";
-        } else if (minutesLeft == 0) {
-            return "Due now!";
-        } else {
-            if (daysLeft >= 1)      return "Due in " + daysLeft + " day(s)";
-            else if (hoursLeft >= 1) return "Due in " + hoursLeft + " hour(s)";
-            else                    return "Due in " + minutesLeft + " minute(s)";
+            if (minutesLeft < 0) {
+                if (Math.abs(daysLeft) >= 1)       return "Overdue by " + Math.abs(daysLeft) + " day(s)";
+                else if (Math.abs(hoursLeft) >= 1) return "Overdue by " + Math.abs(hoursLeft) + " hour(s)";
+                else                               return "Overdue by " + Math.abs(minutesLeft) + " minute(s)";
+            } else if (minutesLeft == 0) {
+                return "Due now!";
+            } else {
+                if (daysLeft >= 1)       return "Due in " + daysLeft + " day(s)";
+                else if (hoursLeft >= 1) return "Due in " + hoursLeft + " hour(s)";
+                else                     return "Due in " + minutesLeft + " minute(s)";
+            }
+        } catch (Exception e) {
+            return "Unknown";
         }
     }
 
@@ -205,9 +206,7 @@ public class Rent_Data {
         }
     } catch (IOException ex) {
         System.out.println("Load error: " + ex.getMessage());
+        }
     }
-}
 
-    
-    
 }

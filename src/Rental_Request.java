@@ -326,7 +326,7 @@ public class Rental_Request extends JFrame{
                     }
 
                     // if hour input is 0
-                    if (hour_choice <= 0){
+                    if (hour_choice < 0){
                         JOptionPane.showMessageDialog(null, "Input a valid hour.");
                         return;
                     }
@@ -534,18 +534,14 @@ public class Rental_Request extends JFrame{
 
     BackgroundPanel(String imagePath) {
         image = new ImageIcon(getClass().getResource("/" + imagePath)).getImage();
-    }
+        }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-    }
-} 
+        }
+    } 
 
     
-
-
-    
-
 }

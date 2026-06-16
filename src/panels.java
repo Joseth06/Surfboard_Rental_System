@@ -9,18 +9,10 @@ public class panels{
     private int gapHeight = (int) (itemHeight * 0.20); 
     private Dimension itemSize = new Dimension(itemWidth, itemHeight);
     
-
-
     private JPanel EQPStatus, topRow, midRow, botRow, totalRows;
     private JButton remove, viewAdmin, viewCus;
     private JLabel nameBoard, AdminReminder, CusReminder, displayDue;
     private JTextField rent, costOutput;
-    
-    
-    
-    
-   
-
     
    
     public panels(){
@@ -174,9 +166,6 @@ public class panels{
         } else {
             AdminReminder.setForeground(new Color(0x4CAF50)); // green - days away
         }
-
         return EQPStatus;
-
-
     }
 }
