@@ -31,7 +31,7 @@ public class Rental_Request extends JFrame{
     private JComboBox<String> 	packBox, packPeriod;
     private JLabel costOutput, dueOutput;
     private JButton btnSubmit;
-    private boolean isLoading = false;
+    private boolean isLoading = true;
 
     
 	Rental_Request(String role) {
@@ -213,22 +213,21 @@ public class Rental_Request extends JFrame{
         packBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String pack_choice = packBox.getSelectedItem().toString();
+            if (isLoading) return;  // ← add this line
+            
+            String pack_choice = packBox.getSelectedItem().toString();
 
-                if (pack_choice.equals("With Instructor")){
-                    durationInput.setText("02");
-                    dayInput.setText("00");
-
-                    
-                    durationInput.setEditable(false);
-                    dayInput.setEditable(false);
-                } else {
-                    durationInput.setText("00");
-                    dayInput.setText("00");
-
-                    durationInput.setEditable(true);
-                    dayInput.setEditable(true);
-                }
+            if (pack_choice.equals("With Instructor")){
+                durationInput.setText("02");
+                dayInput.setText("00");
+                durationInput.setEditable(false);
+                dayInput.setEditable(false);
+            } else {
+                durationInput.setText("00");
+                dayInput.setText("00");
+                durationInput.setEditable(true);
+                dayInput.setEditable(true);
+                    }
             }
         });
 
@@ -356,6 +355,26 @@ public class Rental_Request extends JFrame{
                         return;
                     }
 
+                    // if hour input is 0
+                    if (hour_choice <= 0){
+                        JOptionPane.showMessageDialog(null, "Input a valid hour.");
+                        return;
+                    }
+
+                    // if duration input is 0
+                    if (duration_choice <= 0){
+                        JOptionPane.showMessageDialog(null, "Input a valid hour in duration.");
+                        return;
+                    }
+
+                    // 24th duration Bug
+                    if (duration_choice >= 24) {
+                        JOptionPane.showMessageDialog(null, "Duration cannot be or exceed 24 hours.");
+                        return;
+                    }
+
+     
+
                     // Checks if past hour and minute
                     String fullDateTime = date_choice + " " + String.format("%02d:%02d %s", hour_choice, min_choice, period_choice);
                     if (Rent_Data.getStatus(fullDateTime).startsWith("Overdue")) {
@@ -363,16 +382,7 @@ public class Rental_Request extends JFrame{
                         return;
                     }                    
                     
-                    // 24th duration Bug
-                    if (duration_choice > 24) {
-                        JOptionPane.showMessageDialog(null, "Duration cannot exceed 24 hours.");
-                        return;
-                    }
 
-                    if ((hour_choice == 0 && duration_choice == 0) || (hour_choice < 0 && duration_choice < 0)){
-                        JOptionPane.showMessageDialog(null, "Input a valid hour.");
-                        return;
-                    }
 
                     // Calculation of Cost if "With Instructor" in package
                     if (pack_choice.equals("With Instructor")) {
@@ -481,6 +491,7 @@ public class Rental_Request extends JFrame{
         setLocationRelativeTo			(null);
         setVisible						(true);
         setResizable                    (false);
+        isLoading = false;
     }
 
 
@@ -499,10 +510,12 @@ public class Rental_Request extends JFrame{
         dateInput.setText(entry.date);
         hourInput.setText(String.format("%02d", entry.hour));
         minuteInput.setText(String.format("%02d", entry.min));
-        durationInput.setText(String.valueOf(entry.duration));
-        dayInput.setText(String.valueOf(entry.days));
+        
         packBox.setSelectedItem(entry.pack);
         packPeriod.setSelectedItem(entry.period);
+
+        durationInput.setText(String.valueOf(entry.duration));
+        dayInput.setText(String.valueOf(entry.days));
 
         isLoading = false;
         costOutput.setText(String.format("₱ %.2f", entry.cost));

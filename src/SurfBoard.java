@@ -74,7 +74,6 @@ public class SurfBoard extends JFrame {
 
         pass.setMaximumSize     (new Dimension(200, 35));
         pass.setAlignmentX      (Component.CENTER_ALIGNMENT);
-        pass.setEchoChar((char) 0);
         pass.setBackground(new Color(0xFFFFFF));
         pass.setForeground(new Color(0x000000));
 
