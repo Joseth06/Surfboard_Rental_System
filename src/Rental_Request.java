@@ -66,7 +66,7 @@ public class Rental_Request extends JFrame{
         RQName			= new JTextField("Name");
         RQNum			= new JTextField("###########");
         boardInput		= new JTextField("00");
-        dateInput		= new JTextField("00/00/0000");
+        dateInput		= new JTextField("MM/DD/YYYY");
         hourInput		= new JTextField("00");
         minuteInput		= new JTextField("00");
         dayInput		= new JTextField("00");
